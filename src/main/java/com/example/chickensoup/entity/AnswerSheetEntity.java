@@ -2,6 +2,8 @@ package com.example.chickensoup.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "answer_sheet")
@@ -9,9 +11,6 @@ public class AnswerSheetEntity {
     @Id
     @Column(name = "answer_sheet_id", nullable = false)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -21,11 +20,30 @@ public class AnswerSheetEntity {
     @JoinColumn(name = "test_id")
     private TestEntity test;
 
-    @Column(name = "answer_content")
-    private String answerContent;
-
     @Column(name = "upload_time")
     private Instant uploadTime;
+
+    @Column(name = "score")
+    private Integer score;
+
+    @OneToMany(mappedBy = "answerSheet")
+    private Set<AnswerSheetContentLinkEntity> answerSheetContentLinks = new LinkedHashSet<>();
+
+    public Set<AnswerSheetContentLinkEntity> getAnswerSheetContentLinks() {
+        return answerSheetContentLinks;
+    }
+
+    public void setAnswerSheetContentLinks(Set<AnswerSheetContentLinkEntity> answerSheetContentLinks) {
+        this.answerSheetContentLinks = answerSheetContentLinks;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 
     public Instant getUploadTime() {
         return uploadTime;
@@ -33,14 +51,6 @@ public class AnswerSheetEntity {
 
     public void setUploadTime(Instant uploadTime) {
         this.uploadTime = uploadTime;
-    }
-
-    public String getAnswerContent() {
-        return answerContent;
-    }
-
-    public void setAnswerContent(String answerContent) {
-        this.answerContent = answerContent;
     }
 
     public TestEntity getTest() {
@@ -57,14 +67,6 @@ public class AnswerSheetEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public QuestionEntity getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
     }
 
     public Integer getId() {

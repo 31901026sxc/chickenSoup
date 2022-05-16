@@ -3,6 +3,7 @@ package com.example.chickensoup.form;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Set;
 
 public class TestDto implements Serializable {
     private final Integer id;
@@ -11,14 +12,18 @@ public class TestDto implements Serializable {
     private final Instant testEndTime;
     private final String testStatus;
     private final Integer creatorId;
+    private final String testDescription;
+    private final Set<QuestionDto> testQuestionLinks;
 
-    public TestDto(Integer id, Instant testCreateTime, Instant testStartTime, Instant testEndTime, String testStatus, Integer creatorId) {
+    public TestDto(Integer id, Instant testCreateTime, Instant testStartTime, Instant testEndTime, String testStatus, Integer creatorId, String testDescription, Set<QuestionDto> testQuestionLinks) {
         this.id = id;
         this.testCreateTime = testCreateTime;
         this.testStartTime = testStartTime;
         this.testEndTime = testEndTime;
         this.testStatus = testStatus;
         this.creatorId = creatorId;
+        this.testDescription = testDescription;
+        this.testQuestionLinks = testQuestionLinks;
     }
 
     public Integer getId() {
@@ -45,6 +50,14 @@ public class TestDto implements Serializable {
         return creatorId;
     }
 
+    public String getTestDescription() {
+        return testDescription;
+    }
+
+    public Set<QuestionDto> getTestQuestionLinks() {
+        return testQuestionLinks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,12 +68,14 @@ public class TestDto implements Serializable {
                 Objects.equals(this.testStartTime, entity.testStartTime) &&
                 Objects.equals(this.testEndTime, entity.testEndTime) &&
                 Objects.equals(this.testStatus, entity.testStatus) &&
-                Objects.equals(this.creatorId, entity.creatorId);
+                Objects.equals(this.creatorId, entity.creatorId) &&
+                Objects.equals(this.testDescription, entity.testDescription) &&
+                Objects.equals(this.testQuestionLinks, entity.testQuestionLinks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, testCreateTime, testStartTime, testEndTime, testStatus, creatorId);
+        return Objects.hash(id, testCreateTime, testStartTime, testEndTime, testStatus, creatorId, testDescription, testQuestionLinks);
     }
 
     @Override
@@ -71,6 +86,8 @@ public class TestDto implements Serializable {
                 "testStartTime = " + testStartTime + ", " +
                 "testEndTime = " + testEndTime + ", " +
                 "testStatus = " + testStatus + ", " +
-                "creatorId = " + creatorId + ")";
+                "creatorId = " + creatorId + ", " +
+                "testDescription = " + testDescription + ", " +
+                "testQuestionLinks = " + testQuestionLinks + ")";
     }
 }

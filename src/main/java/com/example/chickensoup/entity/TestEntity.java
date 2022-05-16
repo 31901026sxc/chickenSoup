@@ -28,6 +28,9 @@ public class TestEntity {
     @Column(name = "creator_id")
     private Integer creatorId;
 
+    @Column(name = "`test_ description`")
+    private String testDescription;
+
     @OneToMany(mappedBy = "test")
     private Set<UserTestLinkEntity> userTestLinks = new LinkedHashSet<>();
 
@@ -59,6 +62,14 @@ public class TestEntity {
 
     public void setUserTestLinks(Set<UserTestLinkEntity> userTestLinks) {
         this.userTestLinks = userTestLinks;
+    }
+
+    public String getTestDescription() {
+        return testDescription;
+    }
+
+    public void setTestDescription(String testDescription) {
+        this.testDescription = testDescription;
     }
 
     public Integer getCreatorId() {

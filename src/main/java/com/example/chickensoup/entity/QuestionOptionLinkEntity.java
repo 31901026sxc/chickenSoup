@@ -20,6 +20,18 @@ public class QuestionOptionLinkEntity {
     @Column(name = "test_id")
     private Integer testId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private QuestionEntity question;
+
+    public QuestionEntity getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(QuestionEntity question) {
+        this.question = question;
+    }
+
     public Integer getTestId() {
         return testId;
     }

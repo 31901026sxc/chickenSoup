@@ -3,19 +3,18 @@ package com.example.chickensoup.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "test_question_link")
-public class TestQuestionLinkEntity {
+@Table(name = "answer_sheet_content_link")
+public class AnswerSheetContentLinkEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id")
-    private TestEntity test;
+    @JoinColumn(name = "answer_sheet_id")
+    private AnswerSheetEntity answerSheet;
+
+    @Column(name = "answer_content")
+    private String answerContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
@@ -29,20 +28,20 @@ public class TestQuestionLinkEntity {
         this.question = question;
     }
 
-    public TestEntity getTest() {
-        return test;
+    public String getAnswerContent() {
+        return answerContent;
     }
 
-    public void setTest(TestEntity test) {
-        this.test = test;
+    public void setAnswerContent(String answerContent) {
+        this.answerContent = answerContent;
     }
 
-    public QuestionEntity getQuestion() {
-        return question;
+    public AnswerSheetEntity getAnswerSheet() {
+        return answerSheet;
     }
 
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
+    public void setAnswerSheet(AnswerSheetEntity answerSheet) {
+        this.answerSheet = answerSheet;
     }
 
     public Integer getId() {
@@ -52,5 +51,4 @@ public class TestQuestionLinkEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-
 }

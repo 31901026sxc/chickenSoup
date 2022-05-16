@@ -21,6 +21,9 @@ public class QuestionEntity {
     @Column(name = "answer")
     private String answer;
 
+    @Column(name = "score")
+    private Integer score;
+
     @OneToMany(mappedBy = "question")
     private Set<QuestionOptionLinkEntity> questionOptionLinks = new LinkedHashSet<>();
 
@@ -28,14 +31,14 @@ public class QuestionEntity {
     private Set<TestQuestionLinkEntity> testQuestionLinks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "question")
-    private Set<AnswerSheetEntity> answerSheets = new LinkedHashSet<>();
+    private Set<AnswerSheetContentLinkEntity> answerSheetContentLinks = new LinkedHashSet<>();
 
-    public Set<AnswerSheetEntity> getAnswerSheets() {
-        return answerSheets;
+    public Set<AnswerSheetContentLinkEntity> getAnswerSheetContentLinks() {
+        return answerSheetContentLinks;
     }
 
-    public void setAnswerSheets(Set<AnswerSheetEntity> answerSheets) {
-        this.answerSheets = answerSheets;
+    public void setAnswerSheetContentLinks(Set<AnswerSheetContentLinkEntity> answerSheetContentLinks) {
+        this.answerSheetContentLinks = answerSheetContentLinks;
     }
 
     public Set<TestQuestionLinkEntity> getTestQuestionLinks() {
@@ -52,6 +55,14 @@ public class QuestionEntity {
 
     public void setQuestionOptionLinks(Set<QuestionOptionLinkEntity> questionOptionLinks) {
         this.questionOptionLinks = questionOptionLinks;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public String getAnswer() {
@@ -85,4 +96,5 @@ public class QuestionEntity {
     public void setId(Integer id) {
         this.id = id;
     }
+
 }
