@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
-public class AnswerSheetEntityDto implements Serializable {
+public class AnswerSheetDto implements Serializable {
     private final Integer id;
     private final Integer userId;
     private final Integer testId;
@@ -13,7 +13,7 @@ public class AnswerSheetEntityDto implements Serializable {
     private final Integer score;
     private final Set<AnswerSheetContentLinkDto> answerSheetContentLinks;
 
-    public AnswerSheetEntityDto(Integer id, Integer userId, Integer testId, Instant uploadTime, Integer score, Set<AnswerSheetContentLinkDto> answerSheetContentLinks) {
+    public AnswerSheetDto(Integer id, Integer userId, Integer testId, Instant uploadTime, Integer score, Set<AnswerSheetContentLinkDto> answerSheetContentLinks) {
         this.id = id;
         this.userId = userId;
         this.testId = testId;
@@ -50,7 +50,7 @@ public class AnswerSheetEntityDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnswerSheetEntityDto entity = (AnswerSheetEntityDto) o;
+        AnswerSheetDto entity = (AnswerSheetDto) o;
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.userId, entity.userId) &&
                 Objects.equals(this.testId, entity.testId) &&

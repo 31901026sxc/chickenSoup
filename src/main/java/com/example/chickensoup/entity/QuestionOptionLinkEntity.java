@@ -9,36 +9,13 @@ public class QuestionOptionLinkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
+
+    @Column(name = "question_id")
+    private Integer questionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
     private OptionEntity option;
-
-    @Column(name = "test_id")
-    private Integer testId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
-
-    public QuestionEntity getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
-    }
-
-    public Integer getTestId() {
-        return testId;
-    }
-
-    public void setTestId(Integer testId) {
-        this.testId = testId;
-    }
 
     public OptionEntity getOption() {
         return option;
@@ -48,12 +25,12 @@ public class QuestionOptionLinkEntity {
         this.option = option;
     }
 
-    public QuestionEntity getQuestion() {
-        return question;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
     public Integer getId() {
@@ -63,5 +40,4 @@ public class QuestionOptionLinkEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-
 }

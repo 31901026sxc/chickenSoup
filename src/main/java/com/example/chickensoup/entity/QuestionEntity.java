@@ -25,12 +25,6 @@ public class QuestionEntity {
     private Integer score;
 
     @OneToMany(mappedBy = "question")
-    private Set<QuestionOptionLinkEntity> questionOptionLinks = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "question")
-    private Set<TestQuestionLinkEntity> testQuestionLinks = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "question")
     private Set<AnswerSheetContentLinkEntity> answerSheetContentLinks = new LinkedHashSet<>();
 
     public Set<AnswerSheetContentLinkEntity> getAnswerSheetContentLinks() {
@@ -39,22 +33,6 @@ public class QuestionEntity {
 
     public void setAnswerSheetContentLinks(Set<AnswerSheetContentLinkEntity> answerSheetContentLinks) {
         this.answerSheetContentLinks = answerSheetContentLinks;
-    }
-
-    public Set<TestQuestionLinkEntity> getTestQuestionLinks() {
-        return testQuestionLinks;
-    }
-
-    public void setTestQuestionLinks(Set<TestQuestionLinkEntity> testQuestionLinks) {
-        this.testQuestionLinks = testQuestionLinks;
-    }
-
-    public Set<QuestionOptionLinkEntity> getQuestionOptionLinks() {
-        return questionOptionLinks;
-    }
-
-    public void setQuestionOptionLinks(Set<QuestionOptionLinkEntity> questionOptionLinks) {
-        this.questionOptionLinks = questionOptionLinks;
     }
 
     public Integer getScore() {

@@ -9,40 +9,27 @@ public class TestQuestionLinkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id")
-    private TestEntity test;
+    @Column(name = "test_id")
+    private Integer testId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
+    @Column(name = "question_id")
+    private Integer questionId;
 
-    public QuestionEntity getQuestion() {
-        return question;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
+    public void setQuestion(Integer questionId) {
+        this.questionId = questionId;
     }
 
-    public TestEntity getTest() {
-        return test;
+    public Integer getTestId() {
+        return testId;
     }
 
-    public void setTest(TestEntity test) {
-        this.test = test;
-    }
-
-    public QuestionEntity getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
+    public void setTestId(Integer testId) {
+        this.testId = testId;
     }
 
     public Integer getId() {
