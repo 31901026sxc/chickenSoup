@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     Integer addUser(UserDto userDto) throws ServiceException;
 
-    String deleteUser(Integer userId) throws ServiceException;//从数据库里面删除
+    String deleteUser(Integer userId) throws ServiceException;//从数据库里面删除admin（不可以自己删自己）
 
-    String cancelUser(Integer userId) throws ServiceException;//注销用户
+    String cancelUser(Integer userId) throws ServiceException;//注销用户admin
 
-    String modifyUser(UserDto userDto) throws ServiceException;//不成功就throw exception
+    String modifyUser(UserDto userDto) throws ServiceException;//拒绝改变用户类型
 
-    UserDto searchUser(String userName) throws ServiceException;
+    String modifyUserType(UserDto userDto) throws ServiceException;//可改变用户类型
+
+    UserDto searchUser(String userName) throws ServiceException;//teacher,admin
 
     UserEntity login(Integer userId, String password) throws ServiceException;
 }

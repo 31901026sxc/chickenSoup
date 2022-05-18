@@ -18,7 +18,7 @@ public interface ClassService {
 
     String addStudents(List<UserDto> userDtoList) throws ServiceException;
 
-    ClassDto searchClassByName(String className) throws ServiceException;
-
     ClassDto searchClassById(Integer classId) throws ServiceException;
+
+    List<ClassDto> searchClasses() throws ServiceException;//获取所有班级列表
 }

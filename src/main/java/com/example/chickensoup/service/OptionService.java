@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public interface OptionService {
     Integer addOption(OptionDto optionDto) throws ServiceException;
 
-    String deleteOption(OptionDto optionDto) throws ServiceException;
+    String deleteOption(Integer OptionId) throws ServiceException;
 
     String modifyOption(OptionDto optionDto) throws ServiceException;
 

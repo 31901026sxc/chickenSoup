@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface AnswerService {
-    Integer submitAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException;//提交答卷
+    Integer submitAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException;//提交答卷初始化分数为-1
 
     double autoCorrectAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException;//自动批改答卷（仅限全客观题的试卷）
 
     AnswerSheetDto searchAnswerSheetById(Integer answerSheetId) throws ServiceException;//根据id来查找答卷
 
-    AnswerSheetDto searchAnswerSheetByStudent(Integer studentId,Integer testId) throws ServiceException;//根据id来查找答卷
+    AnswerSheetDto searchAnswerSheetByStudent(Integer studentId,Integer testId) throws ServiceException;//根据学生和考试来查找答卷
 
-    List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException;
+    List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException;//teacher，admin
 
     List<AnswerSheetDto> searchAStudentSheets(Integer studentId) throws ServiceException;
 }

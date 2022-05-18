@@ -9,11 +9,11 @@ import java.util.List;
 public interface QuestionService {
     Integer addQuestion(QuestionDto questionDto) throws ServiceException;
 
-    String deleteQuestion(QuestionDto questionDto) throws ServiceException;
+    String deleteQuestion(Integer questionId) throws ServiceException;
 
     String modifyQuestion(QuestionDto questionDto) throws ServiceException;
 
     QuestionDto searchQuestion(Integer questionId) throws ServiceException;
 
-    List<QuestionDto> searchQuestionByKeyword(String keyword) throws ServiceException;
+    List<QuestionDto> searchQuestionByKeyword(String keyword) throws ServiceException;//根据关键字查询相关问题
 }

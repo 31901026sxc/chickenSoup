@@ -6,7 +6,6 @@ import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.repository.UserRepository;
 import com.example.chickensoup.service.UserService;
 import com.example.chickensoup.utils.Constants;
-import com.example.chickensoup.utils.ExceptionMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String modifyUser(UserDto userDto) throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public String modifyUserType(UserDto userDto) throws ServiceException {
         return null;
     }
 
