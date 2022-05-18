@@ -15,9 +15,11 @@ public interface UserService {
 
     String modifyUser(UserDto userDto) throws ServiceException;//拒绝改变用户类型
 
-    String modifyUserType(UserDto userDto) throws ServiceException;//可改变用户类型
+    String modifyUserType(UserDto userDto) throws ServiceException;//可改变用户类型admin
 
-    UserDto searchUser(String userName) throws ServiceException;//teacher,admin
+    UserDto searchUser(Integer userId) throws ServiceException;//去掉密码
+
+    UserDto adminSearchUser(Integer userId) throws ServiceException;//显示所有信息
 
     UserEntity login(Integer userId, String password) throws ServiceException;
 }

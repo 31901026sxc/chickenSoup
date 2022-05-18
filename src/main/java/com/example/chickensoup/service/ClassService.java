@@ -10,15 +10,17 @@ import java.util.List;
 public interface ClassService {
     Integer addClassInfo(ClassDto classDto) throws ServiceException;//指创建一个空班级
 
+    Integer addClass(ClassDto classDto) throws ServiceException;
+
     String deleteClass(Integer classId) throws ServiceException;
 
     String modifyClass(ClassDto classDto) throws ServiceException;//返回success或者报错
 
-    String addAStudent(UserDto userDto) throws ServiceException;
+    String addAStudent(UserDto userDto , Integer classId) throws ServiceException;
 
-    String addStudents(List<UserDto> userDtoList) throws ServiceException;
+    String addStudents(List<UserDto> userDtoList,Integer classId) throws ServiceException;
 
     ClassDto searchClassById(Integer classId) throws ServiceException;
 
-    List<ClassDto> searchClasses() throws ServiceException;//获取所有班级列表
+    List<ClassDto> searchClasses() throws ServiceException;//获取所有班级列表teacher,admin
 }

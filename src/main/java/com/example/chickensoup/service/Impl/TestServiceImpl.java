@@ -3,9 +3,10 @@ package com.example.chickensoup.service.Impl;
 import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.TestDto;
 import com.example.chickensoup.service.TestService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class TestServiceImpl implements TestService {
     @Override
     public Integer addTest(TestDto TestDto) throws ServiceException {

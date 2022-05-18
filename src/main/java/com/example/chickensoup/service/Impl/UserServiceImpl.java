@@ -47,7 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto searchUser(String userName) throws ServiceException {
+    public UserDto searchUser(Integer userId) throws ServiceException {
+        //记得把密码去掉
+        return null;
+    }
+
+    @Override
+    public UserDto adminSearchUser(Integer userId) throws ServiceException {
+        //显示所有信息
         return null;
     }
 

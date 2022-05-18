@@ -13,10 +13,11 @@ import java.util.Map;
 
 @RestController
 @Slf4j
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public Map<String , Object>login(@RequestBody Map<String, String> loginMap){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -35,12 +36,11 @@ public class UserController {
         }
         return map;
     }
-    @GetMapping("/user/modify")
-    public Map<String , Object> modifyUser(UserDto userDto){
+    @GetMapping("/modify")
+    public Map<String , Object> modifyUser(@RequestBody UserDto userDto){//不得改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
             String result = userService.modifyUser(userDto);
-            Map<String,String> payload =new HashMap<>();//创建令牌
             map.put("result",result);
             map.put("msg","修改成功");
         }catch (Exception e){
@@ -49,13 +49,27 @@ public class UserController {
         }
         return map;
     }
-    @PostMapping("/user/cancel")
-    public Map<String , String> cancelUser(int userId){
-        Map<String,String> map = new HashMap<>();
+    @GetMapping("/create")
+    public Map<String , Object> createUser(@RequestBody UserDto userDto){
+        Map<String,Object> map = new HashMap<>();
         try{
-            String result = userService.cancelUser(userId);
-            map.put("result",result);
-            map.put("msg","修改成功");
+            Integer id = userService.addUser(userDto);
+            map.put("result",id);
+            map.put("msg","创建成功");
+        }catch (Exception e){
+            map.put("result","fail");
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+
+    @GetMapping("/search")
+    public Map<String , Object> searchUser(@RequestBody int userId){
+        Map<String,Object> map = new HashMap<>();
+        try{
+            UserDto user = userService.searchUser(userId);
+            map.put("result",user);
+            map.put("msg","注销成功");
         }catch (Exception e){
             map.put("result","fail");
             map.put("msg",e.getMessage());
