@@ -5,6 +5,7 @@ import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.repository.UserRepository;
 import com.example.chickensoup.service.UserService;
+import com.example.chickensoup.utils.Constants;
 import com.example.chickensoup.utils.ExceptionMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String deleteUser(UserDto userDto) throws ServiceException {
+    public String deleteUser(Integer userId) throws ServiceException {
+        //TODO
         return null;
     }
 
     @Override
     public String cancelUser(Integer userId) throws ServiceException {
-        return null;
+        UserEntity user = userRepository.getById(userId);
+        if (user.getUserType().equals(Constants.USER_CANCELLATION))
+        {
+            throw new ServiceException("该用户已注销");
+        }
+        user.setUserType(Constants.USER_CANCELLATION);
+        userRepository.save(user);
+        return "success";
     }
 
     @Override

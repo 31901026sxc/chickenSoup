@@ -14,7 +14,8 @@ public enum ExceptionMsg {
     LimitPictureType("000402", "图片格式必须为'jpg'、'png'、'jpge'、'gif'、'bmp'"),
     ModelNotFound("000403", "该问卷模板不存在"),
     ClassNotFound("000405", "该课程号不存在"),
-    StudentNotFound("000406", "该学生不存在");
+    StudentNotFound("000406", "该学生不存在"),
+    NotPermitted("000505","权限不足");
 
    private ExceptionMsg(String code, String msg) {
         this.code = code;
