@@ -16,6 +16,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/test/**")
                 .excludePathPatterns("/user/login");
         registry.addInterceptor(new JWTInterceptorTeacher())//教师级权限
+                .addPathPatterns("user/modify")
                 .addPathPatterns("/user/add");
         registry.addInterceptor(new JWTInterceptorAdmin())//管理员级权限
                 .addPathPatterns("/user/cancel");
