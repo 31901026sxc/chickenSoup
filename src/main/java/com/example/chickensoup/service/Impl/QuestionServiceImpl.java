@@ -14,11 +14,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public String deleteQuestion(Integer questionId) throws ServiceException {
-        return null;
-    }
-
-    @Override
     public String modifyQuestion(QuestionDto questionDto) throws ServiceException {
         return null;
     }

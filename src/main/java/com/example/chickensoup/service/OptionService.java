@@ -4,6 +4,8 @@ import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.OptionDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface OptionService {
     Integer addOption(OptionDto optionDto) throws ServiceException;
@@ -12,5 +14,5 @@ public interface OptionService {
 
     String modifyOption(OptionDto optionDto) throws ServiceException;
 
-    OptionDto searchOptionByQuestion(Integer questionId) throws ServiceException;
+    List<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException;
 }

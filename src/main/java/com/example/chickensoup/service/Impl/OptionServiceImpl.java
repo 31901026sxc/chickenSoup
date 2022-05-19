@@ -5,6 +5,8 @@ import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.service.OptionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OptionServiceImpl implements OptionService {
     @Override
@@ -23,7 +25,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public OptionDto searchOptionByQuestion(Integer questionId) throws ServiceException {
+    public List<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException {
         return null;
     }
 }

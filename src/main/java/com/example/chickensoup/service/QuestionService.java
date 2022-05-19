@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public interface QuestionService {
+public interface QuestionService {//teacher,admin
     Integer addQuestion(QuestionDto questionDto) throws ServiceException;
 
-    String deleteQuestion(Integer questionId) throws ServiceException;
+    //不得删除题目
 
     String modifyQuestion(QuestionDto questionDto) throws ServiceException;
 

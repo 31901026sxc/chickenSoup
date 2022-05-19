@@ -1,8 +1,11 @@
 package com.example.chickensoup.controller;
 
 import com.example.chickensoup.entity.UserEntity;
+import com.example.chickensoup.form.TestDto;
 import com.example.chickensoup.form.UserDto;
+import com.example.chickensoup.service.AnswerService;
 import com.example.chickensoup.service.ClassService;
+import com.example.chickensoup.service.TestService;
 import com.example.chickensoup.service.UserService;
 import com.example.chickensoup.utils.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,11 @@ public class AdminController {//对于管理员的超级权限
     UserService userService;
     @Autowired
     ClassService classService;
+    @Autowired
+    AnswerService answerService;
+    @Autowired
+    TestService testService;
+
     @GetMapping("/modify-user")
     public Map<String , Object> modifyUserType(@RequestBody UserDto userDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
@@ -78,11 +86,64 @@ public class AdminController {//对于管理员的超级权限
         try{
             String result = classService.deleteClass(classId);
             map.put("result",result);
-            map.put("msg","查找成功");
+            map.put("msg","删除成功");
         }catch (Exception e){
             map.put("result","fail");
             map.put("msg",e.getMessage());
         }
         return map;
     }
+    @GetMapping("/delete-test")
+    public Map<String , Object> deleteTest(@RequestBody Integer testId){
+        Map<String,Object> map = new HashMap<>();
+        try{
+            String result = testService.deleteTest(testId);
+            map.put("result",result);
+            map.put("msg","删除成功");
+        }catch (Exception e){
+            map.put("result","fail");
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+    @GetMapping("/cancel-test")
+    public Map<String , Object> cancelTest(@RequestBody Integer testId){
+        Map<String,Object> map = new HashMap<>();
+        try{
+            String result = testService.cancelTest(testId);
+            map.put("result",result);
+            map.put("msg","取消成功");
+        }catch (Exception e){
+            map.put("result","fail");
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+    @GetMapping("/modify-test")
+    public Map<String , Object> modifyTest(@RequestBody TestDto testDto){
+        Map<String,Object> map = new HashMap<>();
+        try{
+            String result = testService.modifyTestAdmin(testDto);
+            map.put("result",result);
+            map.put("msg","修改成功");
+        }catch (Exception e){
+            map.put("result","fail");
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+    @GetMapping("/end-test")
+    public Map<String , Object> endTest(@RequestBody Integer testId){
+        Map<String,Object> map = new HashMap<>();
+        try{
+            String result = testService.endTest(testId);
+            map.put("result",result);
+            map.put("msg","成功结束");
+        }catch (Exception e){
+            map.put("result","fail");
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+
 }
