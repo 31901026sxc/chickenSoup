@@ -8,6 +8,8 @@ import com.example.chickensoup.service.ClassService;
 import com.example.chickensoup.service.TestService;
 import com.example.chickensoup.service.UserService;
 import com.example.chickensoup.utils.JWTUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/admin")
+@Api(tags = "管理员控制器")
 public class AdminController {//对于管理员的超级权限
     @Autowired
     UserService userService;
@@ -29,6 +32,7 @@ public class AdminController {//对于管理员的超级权限
     TestService testService;
 
     @GetMapping("/modify-user")
+    @ApiOperation(value = "id寻找管理员")
     public Map<String , Object> modifyUserType(@RequestBody UserDto userDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
