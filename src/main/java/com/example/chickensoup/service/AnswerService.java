@@ -13,9 +13,9 @@ public interface AnswerService {
 
     AnswerSheetDto searchAnswerSheetById(Integer answerSheetId) throws ServiceException;//根据id来查找答卷
 
-    AnswerSheetDto searchAnswerSheetByStudent(Integer studentId,Integer testId) throws ServiceException;//根据学生和考试来查找答卷
+    AnswerSheetDto searchAnswerSheetByStudentAndTest(Integer studentId,Integer testId) throws ServiceException;//根据学生和考试来查找答卷
 
     List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException;//teacher，admin
 
-    List<AnswerSheetDto> searchAStudentSheets(Integer studentId) throws ServiceException;
+    List<AnswerSheetDto> searchAllStudentSheets(Integer studentId) throws ServiceException;
 }

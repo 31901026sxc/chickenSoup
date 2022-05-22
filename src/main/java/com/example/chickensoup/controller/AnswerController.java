@@ -51,7 +51,7 @@ public class AnswerController {
     public Map<String , Object> searchByStudentTest(@RequestBody Map<String,Integer> input){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            AnswerSheetDto result = answerService.searchAnswerSheetByStudent(
+            AnswerSheetDto result = answerService.searchAnswerSheetByStudentAndTest(
                     (Integer) map.get("studentId"), (Integer) map.get("testId"));
             map.put("result",result);
             map.put("msg","查询成功");
@@ -78,7 +78,7 @@ public class AnswerController {
     public Map<String , Object> searchByStudent(@RequestBody Integer studentId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            List<AnswerSheetDto> result = answerService.searchAStudentSheets(studentId);
+            List<AnswerSheetDto> result = answerService.searchAllStudentSheets(studentId);
             map.put("result",result);
             map.put("msg","查询成功");
         }catch (Exception e){

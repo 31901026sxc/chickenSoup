@@ -6,12 +6,16 @@ import java.util.Objects;
 import java.util.Set;
 
 public class AnswerSheetDto implements Serializable {
-    private final Integer id;
-    private final Integer userId;
-    private final Integer testId;
-    private final Instant uploadTime;
-    private final Integer score;
-    private final Set<AnswerSheetContentLinkDto> answerSheetContentLinks;
+    private Integer id;
+    private Integer userId;
+    private Integer testId;
+    private Instant uploadTime;
+    private Integer score;
+    private Set<AnswerSheetContentLinkDto> answerSheetContentLinks;
+
+    public AnswerSheetDto(){
+
+    }
 
     public AnswerSheetDto(Integer id, Integer userId, Integer testId, Instant uploadTime, Integer score, Set<AnswerSheetContentLinkDto> answerSheetContentLinks) {
         this.id = id;
