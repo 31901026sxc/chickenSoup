@@ -5,6 +5,8 @@ import com.example.chickensoup.form.TestDto;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.ClassService;
 import com.example.chickensoup.service.TestService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +21,13 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/test")
+@Api(tags = "问题编辑器")
 public class TestController {
     @Autowired
     TestService testService;
 
     @GetMapping("/add")
+    @ApiOperation(value = "加一个考试")
     public Map<String , Object> addTest(@RequestBody TestDto testDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -37,6 +41,7 @@ public class TestController {
         return map;
     }
     @GetMapping("/modify")
+    @ApiOperation(value = "修改一个考试")
     public Map<String , Object> modifyTest(@RequestBody TestDto testDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -50,6 +55,7 @@ public class TestController {
         return map;
     }
     @GetMapping("/search-creator")
+    @ApiOperation(value = "根据创建者id查考试")
     public Map<String , Object> searchByCreator(@RequestBody Integer creatorId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{

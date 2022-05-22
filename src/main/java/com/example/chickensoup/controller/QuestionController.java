@@ -4,6 +4,8 @@ import com.example.chickensoup.form.QuestionDto;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.ClassService;
 import com.example.chickensoup.service.QuestionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +20,12 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/question")
+@Api(tags = "问题编辑器")
 public class QuestionController {
     @Autowired
     QuestionService questionService;
     @GetMapping("/add")
+    @ApiOperation(value = "加一个问题")
     public Map<String , Object> addQuestion(@RequestBody QuestionDto questionDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -35,6 +39,7 @@ public class QuestionController {
         return map;
     }
     @GetMapping("/modify")
+    @ApiOperation(value = "修改一个问题")
     public Map<String , Object> modifyQuestion(@RequestBody QuestionDto questionDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -48,6 +53,7 @@ public class QuestionController {
         return map;
     }
     @GetMapping("/search-id")
+    @ApiOperation(value = "根据id查一个问题")
     public Map<String , Object> searchQuestionById(@RequestBody Integer questionId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -61,6 +67,7 @@ public class QuestionController {
         return map;
     }
     @GetMapping("/search-keyword")
+    @ApiOperation(value = "根据id查一个问题")
     public Map<String , Object> searchQuestionByKeyword(@RequestBody String keyword){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{

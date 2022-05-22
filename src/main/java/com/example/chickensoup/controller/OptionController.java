@@ -2,6 +2,8 @@ package com.example.chickensoup.controller;
 
 import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.service.OptionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,12 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/option")
+@Api(tags = "选项控制")
 public class OptionController {//teacher,student
     @Autowired
     OptionService optionService;
     @GetMapping("/add")
+    @ApiOperation(value = "加一个选项")
     public Map<String , Object> addOption(@RequestBody OptionDto optionDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -33,6 +37,7 @@ public class OptionController {//teacher,student
         return map;
     }
     @GetMapping("/delete")
+    @ApiOperation(value = "删除一个选项")
     public Map<String , Object> deleteOption(@RequestBody Integer optionId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -46,6 +51,7 @@ public class OptionController {//teacher,student
         return map;
     }
     @GetMapping("/modify")
+    @ApiOperation(value = "修改一个选项")
     public Map<String , Object> modifyOption(@RequestBody OptionDto optionDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -59,6 +65,7 @@ public class OptionController {//teacher,student
         return map;
     }
     @GetMapping("/search")
+    @ApiOperation(value = "查找选项")
     public Map<String , Object> modifyOption(@RequestBody Integer questionId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{

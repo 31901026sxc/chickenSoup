@@ -4,6 +4,8 @@ import com.example.chickensoup.entity.UserEntity;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.UserService;
 import com.example.chickensoup.utils.JWTUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/user")
+@Api(tags = "问题编辑器")
 public class UserController {
     @Autowired
     UserService userService;
     @GetMapping("/login")
+    @ApiOperation(value = "登录")
     public Map<String , Object>login(@RequestBody Map<String, String> loginMap){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -37,6 +41,7 @@ public class UserController {
         return map;
     }
     @GetMapping("/modify")
+    @ApiOperation(value = "修改信息（不包括密码）")
     public Map<String , Object> modifyUser(@RequestBody UserDto userDto){//不得改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -50,6 +55,7 @@ public class UserController {
         return map;
     }
     @GetMapping("/create")
+    @ApiOperation(value = "注册用户")
     public Map<String , Object> createUser(@RequestBody UserDto userDto){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -64,6 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
+    @ApiOperation(value = "查找用户")
     public Map<String , Object> searchUser(@RequestBody int userId){
         Map<String,Object> map = new HashMap<>();
         try{

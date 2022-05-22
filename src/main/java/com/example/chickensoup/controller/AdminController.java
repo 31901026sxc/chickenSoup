@@ -8,8 +8,11 @@ import com.example.chickensoup.service.ClassService;
 import com.example.chickensoup.service.TestService;
 import com.example.chickensoup.service.UserService;
 import com.example.chickensoup.utils.JWTUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +21,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/admin")
+@Api(tags = "管理员控制器")
 public class AdminController {//对于管理员的超级权限
     @Autowired
     UserService userService;
@@ -27,8 +31,8 @@ public class AdminController {//对于管理员的超级权限
     AnswerService answerService;
     @Autowired
     TestService testService;
-
     @GetMapping("/modify-user")
+    @ApiOperation(value = "修改用户信息（管理员权限）")
     public Map<String , Object> modifyUserType(@RequestBody UserDto userDto){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
@@ -41,7 +45,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/delete-user")
+    @ApiOperation(value = "从数据库中删除用户")
     public Map<String , Object> deleteUser(@RequestBody Integer userId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -54,7 +60,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/cancel")
+    @ApiOperation(value = "从数据库中注销用户")
     public Map<String , Object> cancelUser(@RequestBody int userId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -67,7 +75,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/search-user")
+    @ApiOperation(value = "从数据库中获取用户全部信息（包括密码）")
     public Map<String , Object> searchUser(@RequestBody int userId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -80,7 +90,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/delete-class")
+    @ApiOperation(value = "从数据库中删除班级")
     public Map<String , Object> deleteClass(@RequestBody int classId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -93,7 +105,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/delete-test")
+    @ApiOperation(value = "从数据库中删除考试")
     public Map<String , Object> deleteTest(@RequestBody Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -106,7 +120,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/cancel-test")
+    @ApiOperation(value = "从数据库中取消考试")
     public Map<String , Object> cancelTest(@RequestBody Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -119,7 +135,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/modify-test")
+    @ApiOperation(value = "从数据库中修改考试信息")
     public Map<String , Object> modifyTest(@RequestBody TestDto testDto){
         Map<String,Object> map = new HashMap<>();
         try{
@@ -132,7 +150,9 @@ public class AdminController {//对于管理员的超级权限
         }
         return map;
     }
+
     @GetMapping("/end-test")
+    @ApiOperation(value = "立刻终止考试")
     public Map<String , Object> endTest(@RequestBody Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
