@@ -79,8 +79,6 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerSheetDto> searchAllStudentSheets(Integer studentId) throws ServiceException {
-        //TODO
-
         return null;
     }
 }
