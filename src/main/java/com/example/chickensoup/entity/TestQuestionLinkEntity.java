@@ -10,26 +10,28 @@ public class TestQuestionLinkEntity {
     @Column(name = "link_id", nullable = false)
     private Integer id;
 
-    @Column(name = "test_id")
-    private Integer testId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private QuestionEntity question;
 
-    @Column(name = "question_id")
-    private Integer questionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id")
+    private TestEntity test;
 
-    public Integer getQuestionId() {
-        return questionId;
+    public TestEntity getTest() {
+        return test;
     }
 
-    public void setQuestion(Integer questionId) {
-        this.questionId = questionId;
+    public void setTest(TestEntity test) {
+        this.test = test;
     }
 
-    public Integer getTestId() {
-        return testId;
+    public QuestionEntity getQuestion() {
+        return question;
     }
 
-    public void setTestId(Integer testId) {
-        this.testId = testId;
+    public void setQuestion(QuestionEntity question) {
+        this.question = question;
     }
 
     public Integer getId() {
@@ -39,5 +41,4 @@ public class TestQuestionLinkEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-
 }

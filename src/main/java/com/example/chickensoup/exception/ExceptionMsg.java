@@ -1,5 +1,5 @@
 
-package com.example.chickensoup.utils;
+package com.example.chickensoup.exception;
 //实现响应的枚举类
 public enum ExceptionMsg {
     SUCCESS("000001", "操作成功"),

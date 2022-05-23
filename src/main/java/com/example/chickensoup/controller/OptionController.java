@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @Slf4j
@@ -69,7 +70,7 @@ public class OptionController {//teacher,student
     public Map<String , Object> modifyOption(@RequestBody Integer questionId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            List<OptionDto> result = optionService.searchOptionByQuestion(questionId);
+            Set<OptionDto> result = optionService.searchOptionByQuestion(questionId);
             map.put("result",result);
             map.put("msg","查询成功");
         }catch (Exception e){

@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +37,7 @@ public class AnswerController {
     }
     @GetMapping("/search-id")
     @ApiOperation(value = "查找答卷号")
-    public Map<String , Object> searchId(@RequestBody Integer answerSheetId){
+    public Map<String , Object> searchId(@RequestParam Integer answerSheetId){
         Map<String,Object> map = new HashMap<>();
         try{
             AnswerSheetDto result = answerService.searchAnswerSheetById(answerSheetId);
@@ -69,7 +66,7 @@ public class AnswerController {
     }
     @GetMapping("/search-test")
     @ApiOperation(value = "查找某次考试所有答卷")
-    public Map<String , Object> searchByTest(@RequestBody Integer testId){
+    public Map<String , Object> searchByTest(@RequestParam Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
             List<AnswerSheetDto> result = answerService.searchAllAnswerSheets(testId);

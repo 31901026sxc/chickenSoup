@@ -47,7 +47,7 @@ CREATE TABLE `answer_sheet_content_link`  (
   INDEX `answer_sheet_id`(`answer_sheet_id` ASC) USING BTREE,
   INDEX `question_id`(`question_id` ASC) USING BTREE,
   CONSTRAINT `answer_sheet_content_link_ibfk_1` FOREIGN KEY (`answer_sheet_id`) REFERENCES `answer_sheet` (`answer_sheet_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `answer_sheet_content_link_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `answer_sheet_content_link_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questionEntity` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -88,10 +88,10 @@ CREATE TABLE `option`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for question
+-- Table structure for questionEntity
 -- ----------------------------
-DROP TABLE IF EXISTS `question`;
-CREATE TABLE `question`  (
+DROP TABLE IF EXISTS `questionEntity`;
+CREATE TABLE `questionEntity`  (
   `question_id` int NOT NULL AUTO_INCREMENT COMMENT '问题id',
   `question_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '问题内容',
   `question_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '问题类型',
@@ -111,7 +111,7 @@ CREATE TABLE `question_option_link`  (
   PRIMARY KEY (`link_id`) USING BTREE,
   INDEX `question_id`(`question_id` ASC) USING BTREE,
   INDEX `option_id`(`option_id` ASC) USING BTREE,
-  CONSTRAINT `question_option_link_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `question_option_link_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questionEntity` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `question_option_link_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `option` (`option_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -142,7 +142,7 @@ CREATE TABLE `test_question_link`  (
   INDEX `test_id`(`test_id` ASC) USING BTREE,
   INDEX `question_id`(`question_id` ASC) USING BTREE,
   CONSTRAINT `test_question_link_ibfk_1` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `test_question_link_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `test_question_link_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questionEntity` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

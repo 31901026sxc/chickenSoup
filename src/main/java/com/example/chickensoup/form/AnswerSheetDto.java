@@ -11,7 +11,7 @@ public class AnswerSheetDto implements Serializable {
     private Integer testId;
     private Instant uploadTime;
     private Integer score;
-    private Set<AnswerSheetContentLinkDto> answerSheetContentLinks;
+    public Set<AnswerSheetContentLinkDto> answerSheetContentLinks;
 
     public AnswerSheetDto(){
 

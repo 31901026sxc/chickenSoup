@@ -32,7 +32,7 @@ public class JWTInterceptor implements HandlerInterceptor {//这里是所有人�
         }catch (AlgorithmMismatchException e){
             map.put("msg", "算法不一致");
         }catch (Exception e){
-            map.put("msg", "无效身份信息");
+            map.put("msg", e.toString());
         }
         // 封装返回值
         String json = new ObjectMapper().writeValueAsString(map);//返回json文件

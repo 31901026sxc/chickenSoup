@@ -35,6 +35,9 @@ public class TestEntity {
     private Set<UserTestLinkEntity> userTestLinks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "test")
+    private Set<TestQuestionLinkEntity> testQuestionLinks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "test")
     private Set<AnswerSheetEntity> answerSheets = new LinkedHashSet<>();
 
     public Set<AnswerSheetEntity> getAnswerSheets() {
@@ -43,6 +46,14 @@ public class TestEntity {
 
     public void setAnswerSheets(Set<AnswerSheetEntity> answerSheets) {
         this.answerSheets = answerSheets;
+    }
+
+    public Set<TestQuestionLinkEntity> getTestQuestionLinks() {
+        return testQuestionLinks;
+    }
+
+    public void setTestQuestionLinks(Set<TestQuestionLinkEntity> testQuestionLinks) {
+        this.testQuestionLinks = testQuestionLinks;
     }
 
     public Set<UserTestLinkEntity> getUserTestLinks() {

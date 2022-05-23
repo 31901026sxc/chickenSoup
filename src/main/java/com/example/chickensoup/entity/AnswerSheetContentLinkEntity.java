@@ -20,6 +20,18 @@ public class AnswerSheetContentLinkEntity {
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_sheet_id",insertable = false,updatable = false)
+    private AnswerSheetEntity answerSheetEntity;
+
+    public AnswerSheetEntity getAnswerSheetEntity() {
+        return answerSheet;
+    }
+
+    public void setAnswerSheetEntity(AnswerSheetEntity answerSheetEntity) {
+        this.answerSheet = answerSheet;
+    }
+
     public QuestionEntity getQuestion() {
         return question;
     }
