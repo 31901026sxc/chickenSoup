@@ -5,6 +5,7 @@ import com.example.chickensoup.form.OptionDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface OptionService {
@@ -14,5 +15,5 @@ public interface OptionService {
 
     String modifyOption(OptionDto optionDto) throws ServiceException;
 
-    List<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException;
+    Set<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException;
 }

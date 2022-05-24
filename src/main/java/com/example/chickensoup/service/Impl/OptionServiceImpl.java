@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OptionServiceImpl implements OptionService {
@@ -53,9 +55,9 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public List<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException {
+    public Set<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException {
         try{
-            List<OptionDto> optionDtos = new ArrayList<OptionDto>();
+            Set<OptionDto> optionDtos = new HashSet<>();
             optionRepository.findByQuestionId(questionId).stream().map(option ->
                     optionDtos.add(new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent()))
             );

@@ -1,9 +1,8 @@
 package com.example.chickensoup.entity;
 
-import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import org.hibernate.annotations.Proxy;
 
+import javax.persistence.*;
 @Entity
 @Table(name = "`option`")
 public class OptionEntity {
@@ -18,15 +17,16 @@ public class OptionEntity {
     @Column(name = "option_content")
     private String optionContent;
 
-    @OneToMany(mappedBy = "option")
-    private Set<QuestionOptionLinkEntity> questionOptionLinks = new LinkedHashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id",insertable = false,updatable = false)
+    private QuestionEntity question;
 
-    public Set<QuestionOptionLinkEntity> getQuestionOptionLinks() {
-        return questionOptionLinks;
+    public QuestionEntity getQuestion() {
+        return question;
     }
 
-    public void setQuestionOptionLinks(Set<QuestionOptionLinkEntity> questionOptionLinks) {
-        this.questionOptionLinks = questionOptionLinks;
+    public void setQuestion(QuestionEntity question) {
+        this.question = question;
     }
 
     public String getOptionContent() {

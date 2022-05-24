@@ -4,6 +4,7 @@ import com.example.chickensoup.entity.AnswerSheetEntity;
 import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.AnswerSheetContentLinkDto;
 import com.example.chickensoup.form.AnswerSheetDto;
+import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.form.QuestionDto;
 import com.example.chickensoup.repository.AnswerSheetRepository;
 import com.example.chickensoup.service.AnswerService;
@@ -11,20 +12,29 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private AnswerSheetRepository answerSheetRepository;
-
+    @Autowired
+    private OptionServiceImpl optionService;
+    @Autowired
+    private QuestionServiceImpl questionService;
     @Override
     public Integer submitAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException {
-        AnswerSheetEntity answerSheet = new AnswerSheetEntity();
-        BeanUtils.copyProperties(answerSheetDto,answerSheet);
-        answerSheet.setScore(Integer.valueOf(-1));
-        return answerSheetRepository.save(answerSheet).getId();
+        try{
+            AnswerSheetEntity answerSheet = new AnswerSheetEntity();
+            BeanUtils.copyProperties(answerSheetDto,answerSheet);
+            answerSheet.setScore(Integer.valueOf(-1));
+            return answerSheetRepository.save(answerSheet).getId();
+        }catch (Exception e)
+        {
+            throw new ServiceException(e.toString());
+        }
+
     }
 
     @Override
@@ -40,8 +50,11 @@ public class AnswerServiceImpl implements AnswerService {
             AnswerSheetDto answerSheetDto = new AnswerSheetDto();
             BeanUtils.copyProperties(answerSheet,answerSheetDto);
             return answerSheetDto;
-        }catch (NullPointerException e){
-             throw new ServiceException("未找到对应id的答题表");
+        }catch (NoSuchElementException e){
+             throw new ServiceException("未找到对应id的答卷");
+        }catch(Exception e)
+        {
+            throw new ServiceException("根据id查找答卷错误");
         }
 
     }
@@ -54,28 +67,53 @@ public class AnswerServiceImpl implements AnswerService {
         return answerSheetDto;
     }
 
+//    @Override
+//    public List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException {
+//        List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
+//        List<AnswerSheetEntity> sheets = new ArrayList<>();
+//        sheets = answerSheetRepository.findByTest(testId);
+//        for (AnswerSheetEntity entity:sheets
+//             ) {
+//            AnswerSheetDto dto = new AnswerSheetDto();
+//            BeanUtils.copyProperties(entity,dto);
+//            list.add(dto);
+//        }
+//          return list;
+//    }
     @Override
     public List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException {
         //TODO 查看是否意义正确,QuestionDto与QuestionEntity冲突
-        List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
-        answerSheetRepository.findByTest(testId).forEach(answerSheet ->{
-            AnswerSheetDto answerSheetDto = new AnswerSheetDto(
-                answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
-                ,answerSheet.getUploadTime(), answerSheet.getScore(),
-                answerSheet.getAnswerSheetContentLinks().stream().map(answerSheetContentLinks -> new AnswerSheetContentLinkDto(
-                    answerSheetContentLinks.getId(),answerSheetContentLinks.getAnswerSheet().getId(),
-                    answerSheetContentLinks.getAnswerContent(),
-                    new QuestionDto(answerSheetContentLinks.getQuestion().getId(),answerSheetContentLinks.getQuestion().getQuestionContent()
-                        answerSheetContentLinks.getQuestion().getQuestionType(),answerSheetContentLinks.getQuestion().getAnswer(),
-                        answerSheetContentLinks.getQuestion().getScore(),
-                        answerSheetContentLinks.getQuestion().getQuestionOptionLinks()
-                    )
-                ))
-            );
-            list.add(answerSheetDto);
-        });
-        return null;
+        try{
+            answerSheetRepository.findByTest(testId).forEach(e -> System.out.println(e.getId()));
+            List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
+            Set<OptionDto> options = new HashSet<>();
+
+            answerSheetRepository.findByTest(testId).forEach(answerSheet ->{
+                AnswerSheetDto answerSheetDto = new AnswerSheetDto(
+                        answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
+                        ,answerSheet.getUploadTime(), answerSheet.getScore(),
+                        answerSheet.getAnswerSheetContentLinks().stream().map(answerSheetContentLinks -> new AnswerSheetContentLinkDto(
+                                answerSheetContentLinks.getId(),answerSheetContentLinks.getAnswerSheet().getId(),
+                                answerSheetContentLinks.getAnswerContent(),
+                                new QuestionDto(answerSheetContentLinks.getQuestion().getId(),answerSheetContentLinks.getQuestion().getQuestionContent(),
+                                        answerSheetContentLinks.getQuestion().getQuestionType(),answerSheetContentLinks.getQuestion().getAnswer(),
+                                        answerSheetContentLinks.getQuestion().getScore(),
+                                        answerSheetContentLinks.getQuestion().getOptions().stream().map(option ->
+                                                new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent())
+                                        ).collect(Collectors.toSet())
+                                )
+                        )).collect(Collectors.toSet())
+                );
+                list.add(answerSheetDto);
+            });
+            return list;
+        }catch (Exception e)
+        {
+            throw new ServiceException(e.toString());
+        }
+
     }
+
 
     @Override
     public List<AnswerSheetDto> searchAllStudentSheets(Integer studentId) throws ServiceException {
