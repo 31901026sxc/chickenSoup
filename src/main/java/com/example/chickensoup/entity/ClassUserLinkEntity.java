@@ -16,6 +16,8 @@ public class ClassUserLinkEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    ClassUserLinkEntity
+
     public UserEntity getUser() {
         return user;
     }
