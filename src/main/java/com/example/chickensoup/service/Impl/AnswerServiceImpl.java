@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.rmi.ServerError;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,8 +48,21 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerSheetDto searchAnswerSheetById(Integer answerSheetId) throws ServiceException {
         try{
             AnswerSheetEntity answerSheet = answerSheetRepository.findById(answerSheetId).get();
-            AnswerSheetDto answerSheetDto = new AnswerSheetDto();
-            BeanUtils.copyProperties(answerSheet,answerSheetDto);
+            AnswerSheetDto answerSheetDto = new AnswerSheetDto(
+                    answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
+                    ,answerSheet.getUploadTime(), answerSheet.getScore(),
+                    answerSheet.getAnswerSheetContentLinks().stream().map(answerSheetContentLinks -> new AnswerSheetContentLinkDto(
+                            answerSheetContentLinks.getId(),answerSheetContentLinks.getAnswerSheet().getId(),
+                            answerSheetContentLinks.getAnswerContent(),
+                            new QuestionDto(answerSheetContentLinks.getQuestion().getId(),answerSheetContentLinks.getQuestion().getQuestionContent(),
+                                    answerSheetContentLinks.getQuestion().getQuestionType(),answerSheetContentLinks.getQuestion().getAnswer(),
+                                    answerSheetContentLinks.getQuestion().getScore(),
+                                    answerSheetContentLinks.getQuestion().getOptions().stream().map(option ->
+                                            new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent())
+                                    ).collect(Collectors.toSet())
+                            )
+                    )).collect(Collectors.toSet())
+            );
             return answerSheetDto;
         }catch (NoSuchElementException e){
              throw new ServiceException("未找到对应id的答卷");
@@ -61,28 +75,36 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerSheetDto searchAnswerSheetByStudentAndTest(Integer studentId, Integer testId) throws ServiceException {
-        AnswerSheetEntity answerSheet = answerSheetRepository.findByUserAndTest(studentId,testId);
-        AnswerSheetDto answerSheetDto = new AnswerSheetDto();
-        BeanUtils.copyProperties(answerSheet,answerSheetDto);
-        return answerSheetDto;
+        try{
+            AnswerSheetEntity answerSheet = answerSheetRepository.findByUserIdAndAndTestId(studentId,testId);
+            AnswerSheetDto answerSheetDto = new AnswerSheetDto(
+                    answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
+                    ,answerSheet.getUploadTime(), answerSheet.getScore(),
+                    answerSheet.getAnswerSheetContentLinks().stream().map(answerSheetContentLinks -> new AnswerSheetContentLinkDto(
+                            answerSheetContentLinks.getId(),answerSheetContentLinks.getAnswerSheet().getId(),
+                            answerSheetContentLinks.getAnswerContent(),
+                            new QuestionDto(answerSheetContentLinks.getQuestion().getId(),answerSheetContentLinks.getQuestion().getQuestionContent(),
+                                    answerSheetContentLinks.getQuestion().getQuestionType(),answerSheetContentLinks.getQuestion().getAnswer(),
+                                    answerSheetContentLinks.getQuestion().getScore(),
+                                    answerSheetContentLinks.getQuestion().getOptions().stream().map(option ->
+                                            new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent())
+                                    ).collect(Collectors.toSet())
+                            )
+                    )).collect(Collectors.toSet())
+            );
+            return answerSheetDto;
+        }catch (IllegalArgumentException e)
+        {
+            throw new ServiceException("该查询条件不存在");
+        }
+        catch (Exception e){
+            throw new ServiceException(e.toString());
+        }
+
     }
 
-//    @Override
-//    public List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException {
-//        List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
-//        List<AnswerSheetEntity> sheets = new ArrayList<>();
-//        sheets = answerSheetRepository.findByTest(testId);
-//        for (AnswerSheetEntity entity:sheets
-//             ) {
-//            AnswerSheetDto dto = new AnswerSheetDto();
-//            BeanUtils.copyProperties(entity,dto);
-//            list.add(dto);
-//        }
-//          return list;
-//    }
     @Override
     public List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException {
-        //TODO 查看是否意义正确,QuestionDto与QuestionEntity冲突
         try{
             answerSheetRepository.findByTest(testId).forEach(e -> System.out.println(e.getId()));
             List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
@@ -117,6 +139,33 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerSheetDto> searchAllStudentSheets(Integer studentId) throws ServiceException {
-        return null;
+        try{
+            answerSheetRepository.findByUserId(studentId).forEach(e -> System.out.println(e.getId()));
+            List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
+            Set<OptionDto> options = new HashSet<>();
+
+            answerSheetRepository.findByTest(studentId).forEach(answerSheet ->{
+                AnswerSheetDto answerSheetDto = new AnswerSheetDto(
+                        answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
+                        ,answerSheet.getUploadTime(), answerSheet.getScore(),
+                        answerSheet.getAnswerSheetContentLinks().stream().map(answerSheetContentLinks -> new AnswerSheetContentLinkDto(
+                                answerSheetContentLinks.getId(),answerSheetContentLinks.getAnswerSheet().getId(),
+                                answerSheetContentLinks.getAnswerContent(),
+                                new QuestionDto(answerSheetContentLinks.getQuestion().getId(),answerSheetContentLinks.getQuestion().getQuestionContent(),
+                                        answerSheetContentLinks.getQuestion().getQuestionType(),answerSheetContentLinks.getQuestion().getAnswer(),
+                                        answerSheetContentLinks.getQuestion().getScore(),
+                                        answerSheetContentLinks.getQuestion().getOptions().stream().map(option ->
+                                                new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent())
+                                        ).collect(Collectors.toSet())
+                                )
+                        )).collect(Collectors.toSet())
+                );
+                list.add(answerSheetDto);
+            });
+            return list;
+        }catch (Exception e)
+        {
+            throw new ServiceException(e.toString());
+        }
     }
 }

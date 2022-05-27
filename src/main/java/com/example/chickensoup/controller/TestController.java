@@ -2,6 +2,7 @@ package com.example.chickensoup.controller;
 
 import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.TestDto;
+import com.example.chickensoup.form.TestSeedDto;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.ClassService;
 import com.example.chickensoup.service.TestService;
@@ -9,10 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +26,10 @@ public class TestController {
 
     @GetMapping("/add")
     @ApiOperation(value = "加一个考试")
-    public Map<String , Object> addTest(@RequestBody TestDto testDto){//改变用户类型
+    public Map<String , Object> addTest(@RequestBody TestSeedDto testSeed){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            TestDto result = testService.addTest(testDto);
+            TestDto result = testService.addTest(testSeed);
             map.put("result",result);
             map.put("msg","创建成功");
         }catch (Exception e){
@@ -40,12 +38,12 @@ public class TestController {
         }
         return map;
     }
-    @GetMapping("/modify")
-    @ApiOperation(value = "修改一个考试")
-    public Map<String , Object> modifyTest(@RequestBody TestDto testDto){//改变用户类型
+    @GetMapping("/search-creator")
+    @ApiOperation(value = "根据创建者id查考试")
+    public Map<String , Object> searchByCreator(@RequestParam Integer creatorId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            TestDto result = testService.modifyTest(testDto);
+            List<TestDto> result = testService.searchTestByCreator(creatorId);
             map.put("result",result);
             map.put("msg","修改成功");
         }catch (Exception e){
@@ -54,12 +52,12 @@ public class TestController {
         }
         return map;
     }
-    @GetMapping("/search-creator")
+    @GetMapping("/add-students")
     @ApiOperation(value = "根据创建者id查考试")
-    public Map<String , Object> searchByCreator(@RequestBody Integer creatorId){//改变用户类型
+    public Map<String , Object> addStudents(@RequestBody List<Integer> students){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
-            List<TestDto> result = testService.searchTestByCreator(creatorId);
+            String result = testService.addStudentsToTest(students);
             map.put("result",result);
             map.put("msg","修改成功");
         }catch (Exception e){

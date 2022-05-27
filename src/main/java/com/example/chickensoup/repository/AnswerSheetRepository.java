@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnswerSheetRepository extends JpaRepository<AnswerSheetEntity, Integer> {
-    AnswerSheetEntity findByUserAndTest(Integer studentId,Integer testId);
+    AnswerSheetEntity findByUserIdAndAndTestId(Integer studentId,Integer testId);
+
     @Query(value = "select a from AnswerSheetEntity a where a.test.id = ?1")
     List<AnswerSheetEntity> findByTest(Integer testId);
 
-    List<AnswerSheetEntity> findByTestId(Integer testId);
+    List<AnswerSheetEntity> findByUserId(Integer testId);
 }

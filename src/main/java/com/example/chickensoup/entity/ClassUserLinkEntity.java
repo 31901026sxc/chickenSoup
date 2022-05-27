@@ -6,8 +6,10 @@ import javax.persistence.*;
 @Table(name = "class_user_link")
 public class ClassUserLinkEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
     private ClassEntity _class;
@@ -16,14 +18,12 @@ public class ClassUserLinkEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    ClassUserLinkEntity
-
-    public UserEntity getUser() {
-        return user;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public ClassEntity get_class() {
@@ -34,12 +34,12 @@ public class ClassUserLinkEntity {
         this._class = _class;
     }
 
-    public Integer getId() {
-        return id;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
 }

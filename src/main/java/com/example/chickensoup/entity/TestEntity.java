@@ -28,7 +28,7 @@ public class TestEntity {
     @Column(name = "creator_id")
     private Integer creatorId;
 
-    @Column(name = "`test_ description`")
+    @Column(name = "test_ description")
     private String testDescription;
 
     @OneToMany(mappedBy = "test")

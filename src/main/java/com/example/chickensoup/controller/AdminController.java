@@ -2,6 +2,7 @@ package com.example.chickensoup.controller;
 
 import com.example.chickensoup.entity.UserEntity;
 import com.example.chickensoup.form.TestDto;
+import com.example.chickensoup.form.TestSeedDto;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.AnswerService;
 import com.example.chickensoup.service.ClassService;
@@ -136,24 +137,9 @@ public class AdminController {//对于管理员的超级权限
         return map;
     }
 
-    @GetMapping("/modify-test")
-    @ApiOperation(value = "从数据库中修改考试信息")
-    public Map<String , Object> modifyTest(@RequestBody TestDto testDto){
-        Map<String,Object> map = new HashMap<>();
-        try{
-            String result = testService.modifyTestAdmin(testDto);
-            map.put("result",result);
-            map.put("msg","修改成功");
-        }catch (Exception e){
-            map.put("result","fail");
-            map.put("msg",e.getMessage());
-        }
-        return map;
-    }
-
     @GetMapping("/end-test")
     @ApiOperation(value = "立刻终止考试")
-    public Map<String , Object> endTest(@RequestBody Integer testId){
+    public Map<String , Object> endTest(@RequestParam Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
             String result = testService.endTest(testId);

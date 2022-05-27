@@ -80,7 +80,7 @@ public class AnswerController {
     }
     @GetMapping("/search-student")
     @ApiOperation(value = "查找某学生所有答卷")
-    public Map<String , Object> searchByStudent(@RequestBody Integer studentId){
+    public Map<String , Object> searchByStudent(@RequestParam Integer studentId){
         Map<String,Object> map = new HashMap<>();
         try{
             List<AnswerSheetDto> result = answerService.searchAllStudentSheets(studentId);

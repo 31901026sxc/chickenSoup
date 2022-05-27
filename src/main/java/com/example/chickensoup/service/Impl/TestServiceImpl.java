@@ -2,10 +2,14 @@ package com.example.chickensoup.service.Impl;
 
 import com.example.chickensoup.entity.QuestionEntity;
 import com.example.chickensoup.entity.TestEntity;
+import com.example.chickensoup.entity.TestQuestionLinkEntity;
+import com.example.chickensoup.entity.UserEntity;
 import com.example.chickensoup.exception.ServiceException;
+import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.form.QuestionDto;
 import com.example.chickensoup.form.TestDto;
-import com.example.chickensoup.repository.TestRepository;
+import com.example.chickensoup.form.TestSeedDto;
+import com.example.chickensoup.repository.*;
 import com.example.chickensoup.service.TestService;
 import com.example.chickensoup.utils.Constants;
 import org.springframework.beans.BeanUtils;
@@ -13,25 +17,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TestServiceImpl implements TestService {
     @Autowired
     private TestRepository testRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
+    @Autowired
     private QuestionServiceImpl questionService;
+    @Autowired
+    private OptionRepository optionRepository;
+    @Autowired
+    private TestQuestionLinkRepository testQuestionLinkRepository;
     @Override
-    public TestDto addTest(TestDto TestDto) throws ServiceException {
+    public TestDto addTest(TestSeedDto testSeed) throws ServiceException {
         try {
+            UserEntity creator = userRepository.findById(testSeed.getCreatorId()).get();
+            if (creator.getUserType().equals(Constants.USER_STUDENT))
+                throw new ServiceException("学生没有权限来创建试卷");
+            if (testSeed.getTestEndTime().isAfter(Instant.ofEpochSecond(System.currentTimeMillis()))||
+                testSeed.getTestEndTime().isAfter(testSeed.getTestStartTime()))
+                throw new ServiceException("试卷结束时间非法");
+            Set<QuestionEntity> questionEntities = new HashSet<>();
+            Set<QuestionDto> questionDtos = new HashSet<>();
             TestEntity test = new TestEntity();
-            Set<QuestionDto> questions= new HashSet<>();
-            questions = TestDto.getTestQuestionLinks();
-            BeanUtils.copyProperties(TestDto,test);
-            testRepository.save(test);
-            return TestDto;
+            BeanUtils.copyProperties(testSeed,test);
+            testSeed.getQuestions().forEach(id ->
+                    questionEntities.add(questionRepository.findById(id).get()));
+            test = testRepository.save(test);
+
+            testSeed.getQuestions().forEach(question ->{
+                questionDtos.add(questionService.searchQuestion(question));
+            });
+
+
+            TestDto result = new TestDto(test.getId(),test.getTestCreateTime(),test.getTestStartTime(),
+                    test.getTestEndTime(),test.getTestStatus(),test.getCreatorId(),test.getTestDescription(),
+                        questionDtos);
+            return result;
         }catch(Exception e)
         {
             throw new ServiceException(e.toString());
@@ -75,20 +106,31 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public TestDto modifyTest(TestDto TestDto) throws ServiceException {
-        //正在进行中和已完成的考试无法修改,creatorId无法更改
-        return null;
-    }
-
-    @Override
-    public String modifyTestAdmin(TestDto TestDto) throws ServiceException {
-        //啥都能改,但是题目冲突依然以库中为准
-        return null;
-    }
-
-    @Override
     public List<TestDto> searchTestByCreator(Integer creatorId) throws ServiceException {
-        return null;
+        try{
+            List<TestEntity> entities= testRepository.findAllByCreatorId(creatorId);
+            for (TestEntity t:entities
+                 ) {
+                t.setTestQuestionLinks(testQuestionLinkRepository.findAllByTestId(t.getId()));
+            }
+            List<TestDto> result = new ArrayList<>();
+            for (TestEntity entity:entities
+                 ) {
+                System.out.println(entity.getTestQuestionLinks().size());
+                Set<QuestionDto> questionDtos= new HashSet<>();
+                for (TestQuestionLinkEntity link:entity.getTestQuestionLinks()
+                     ) {
+                    questionDtos.add(questionService.searchQuestion(link.getQuestion().getId()));
+                }
+                TestDto t = new TestDto(entity.getId(),entity.getTestCreateTime(),entity.getTestStartTime(),
+                        entity.getTestEndTime(),entity.getTestStatus(),entity.getCreatorId(),
+                        entity.getTestDescription(),questionDtos);
+                result.add(t);
+            }
+            return result;
+        }catch (Exception e){
+            throw new ServiceException(e.toString());
+        }
     }
 
     @Override
@@ -106,5 +148,11 @@ public class TestServiceImpl implements TestService {
         {
             throw new ServiceException(e.toString());
         }
+    }
+
+    @Override
+    public String addStudentsToTest(List<Integer> students) {
+        //TODO
+        return null;
     }
 }

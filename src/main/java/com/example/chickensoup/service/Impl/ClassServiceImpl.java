@@ -98,7 +98,7 @@ public class ClassServiceImpl implements ClassService {
     public ClassDto searchClassById(Integer classId) throws ServiceException {
         ClassEntity classEntity = classRepository.findById(classId).get();
         ClassDto classDto = new ClassDto(classEntity.getId(),classEntity.getClassName(),classEntity.getClassMark(),
-                classEntity.getClassUserLinks().stream().map(classUserLinks -> classUserLinks)));
+                classEntity.getClassUserLinks().stream().map(classUserLinks -> classUserLinks)););
     }
 
     @Override
