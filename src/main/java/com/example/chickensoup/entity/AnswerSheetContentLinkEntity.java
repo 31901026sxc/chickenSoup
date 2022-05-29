@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "answer_sheet_content_link")
 public class AnswerSheetContentLinkEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
 
@@ -19,18 +20,6 @@ public class AnswerSheetContentLinkEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "answer_sheet_id",insertable = false,updatable = false)
-    private AnswerSheetEntity answerSheetEntity;
-
-    public AnswerSheetEntity getAnswerSheetEntity() {
-        return answerSheet;
-    }
-
-    public void setAnswerSheetEntity(AnswerSheetEntity answerSheetEntity) {
-        this.answerSheet = answerSheet;
-    }
 
     public QuestionEntity getQuestion() {
         return question;

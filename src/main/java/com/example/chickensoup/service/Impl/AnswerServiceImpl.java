@@ -1,14 +1,17 @@
 package com.example.chickensoup.service.Impl;
 
+import com.example.chickensoup.entity.AnswerSheetContentLinkEntity;
 import com.example.chickensoup.entity.AnswerSheetEntity;
+import com.example.chickensoup.entity.TestEntity;
 import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.AnswerSheetContentLinkDto;
 import com.example.chickensoup.form.AnswerSheetDto;
 import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.form.QuestionDto;
-import com.example.chickensoup.repository.AnswerSheetRepository;
+import com.example.chickensoup.repository.*;
 import com.example.chickensoup.service.AnswerService;
 import com.example.chickensoup.utils.Constants;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +25,35 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private AnswerSheetRepository answerSheetRepository;
     @Autowired
-    private OptionServiceImpl optionService;
+    private UserRepository userRepository;
     @Autowired
-    private QuestionServiceImpl questionService;
+    private TestRepository testRepository;
+    @Autowired
+    private AnswerSheetContentLinkRepository answerSheetContentLinkRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
     @Override
     public Integer submitAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException {
         try{
+            if(!(answerSheetRepository.findByUserIdAndAndTestId(answerSheetDto.getUserId(),answerSheetDto.getTestId())==null))
+                throw new ServiceException("你已经提交过啦");
             AnswerSheetEntity answerSheet = new AnswerSheetEntity();
-            BeanUtils.copyProperties(answerSheetDto,answerSheet);
+            double score = autoCorrectAnswerSheet(answerSheetDto);
+            answerSheet.setScore((int) score);
+            answerSheet.setUser(userRepository.getById(answerSheetDto.getUserId()));
+            answerSheet.setUploadTime(answerSheetDto.getUploadTime());
+            answerSheet.setTest(testRepository.getById(answerSheetDto.getTestId()));
+            System.out.println(score);
+            Integer answerSheetId = answerSheetRepository.save(answerSheet).getId();
+            System.out.println(answerSheetId);
+            answerSheetDto.getAnswerSheetContentLinks().forEach(link ->{
+                AnswerSheetContentLinkEntity temp = new AnswerSheetContentLinkEntity();
+                temp.setAnswerContent(link.getAnswerContent());
+                temp.setAnswerSheet(answerSheetRepository.getById(answerSheetId));
+                temp.setQuestion(questionRepository.getById(link.getQuestion().getId()));
+                answerSheetContentLinkRepository.save(temp);
+            });
+
             answerSheet.setScore(Integer.valueOf(-1));
             return answerSheetRepository.save(answerSheet).getId();
         }catch (Exception e)

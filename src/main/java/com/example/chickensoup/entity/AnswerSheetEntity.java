@@ -9,6 +9,7 @@ import java.util.Set;
 @Table(name = "answer_sheet")
 public class AnswerSheetEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_sheet_id", nullable = false)
     private Integer id;
 

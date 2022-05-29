@@ -14,4 +14,5 @@ public interface AnswerSheetRepository extends JpaRepository<AnswerSheetEntity, 
     List<AnswerSheetEntity> findByTest(Integer testId);
 
     List<AnswerSheetEntity> findByUserId(Integer testId);
+
 }
