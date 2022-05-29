@@ -1,8 +1,10 @@
 package com.example.chickensoup.controller;
 
 import com.example.chickensoup.entity.UserEntity;
+import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.UserDto;
 import com.example.chickensoup.service.UserService;
+import com.example.chickensoup.utils.Constants;
 import com.example.chickensoup.utils.JWTUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,10 +28,21 @@ public class UserController {
         Map<String,Object> map = new HashMap<>();
         try{
             UserEntity user = userService.login(Integer.valueOf(loginMap.get("userId")),loginMap.get("password"));
+            if (user.getUserType().equals(Constants.USER_CANCELLATION))
+                throw new ServiceException("该用户已注销");
             Map<String,String> payload =new HashMap<>();//创建令牌
             payload.put("userId",String.valueOf(user.getId()));
             payload.put("userName",user.getUserName());
-            payload.put("userType",user.getUserType());
+            if (user.getUserType().equals("superAdmin"))
+                payload.put("userType","100");
+            else if (user.getUserType().equals(Constants.USER_ADMIN))
+                payload.put("userType","3");
+            else if (user.getUserType().equals(Constants.USER_TEACHER))
+                payload.put("userType","2");
+            else if (user.getUserType().equals(Constants.USER_STUDENT))
+                payload.put("userType","1");
+            else
+                throw new ServiceException("该用户类型非法");
             String token = JWTUtils.getToken(payload);//生成加密token密码
             map.put("result","success");
             map.put("msg","登录成功");
@@ -59,6 +72,7 @@ public class UserController {
     public Map<String , Object> createUser(@RequestBody UserDto userDto){
         Map<String,Object> map = new HashMap<>();
         try{
+            System.out.println("recevied");
             Integer id = userService.addUser(userDto);
             map.put("result",id);
             map.put("msg","创建成功");

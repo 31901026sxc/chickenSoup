@@ -34,7 +34,7 @@ public class SwaggerConfig {
                 .title("api 说明")//接口标题
                 .description("教考分离系统接口群")//接口描述
                 .version("v1.0")//版本号
-                .contact(new Contact("zwt", "http://tipsynovember.xyz/", "729009583@qq.com"))//联系人信息
+                .contact(new Contact("zwt", "http://tipsynovember.xyz/", "1274984171@qq.com"))//联系人信息
                 .build();
     }
 }

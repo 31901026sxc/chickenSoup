@@ -29,7 +29,7 @@ public class JWTUtils {
     }
     public static String getUserType(String token){
         DecodedJWT jwtVerifier = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
-        return jwtVerifier.getClaim("userType").toString();
+        return jwtVerifier.getClaim("userType").asString();
     }
 }
 

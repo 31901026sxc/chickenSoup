@@ -23,7 +23,7 @@ public class JWTInterceptorAdmin implements HandlerInterceptor {//被这个拦�
         // 捕获刚刚JWT中抛出的异常,并封装对应的返回信息
         try {
             JWTUtils.verify(token);
-            if (!JWTUtils.getUserType(token).equals("admin"))//只有管理员才有该权限
+            if (!(Integer.valueOf(JWTUtils.getUserType(token))>2))//只有管理员才有该权限
                 map.put("msg","你没有这个权限");
             else
                 return true;

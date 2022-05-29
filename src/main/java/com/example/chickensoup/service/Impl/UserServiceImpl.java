@@ -18,16 +18,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Override
     public Integer addUser(UserDto userDto) throws ServiceException {
-        if(userDto.getId() != 0){
-            throw new ServiceException("新建用户不能上传id");
-        }
         try{
-            System.out.println(userDto);
             UserEntity user = new UserEntity();
             user.setUserType(userDto.getUserType());
             user.setUserName(userDto.getUserName());
             user.setDepartment(userDto.getDepartment());
-            user.setUserPassword(user.getUserPassword());
+            user.setUserPassword(userDto.getUserPassword());
             System.out.println(user);
             return userRepository.save(user).getId();
         }catch (Exception e){
@@ -66,16 +62,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String modifyUser(UserDto userDto) throws ServiceException {
-        if(userDto.getUserType() != null){
-            throw new ServiceException("修改用户接口不允许修改用户类型");
-        }
         try{
-            UserEntity user = new UserEntity();
-            BeanUtils.copyProperties(userDto, user);
+            UserEntity user = userRepository.getById(userDto.getId());
+            if (!user.getUserType().equals(userDto.getUserType()))
+                throw new ServiceException("你无法在这里修改用户权限");
+            BeanUtils.copyProperties(userDto, user);//√
             userRepository.save(user);
             return "success";
         }catch (Exception e){
-            throw new ServiceException("修改用户信息（不包含类型）出错！");
+            throw new ServiceException("修改用户信息（不包含类型）出错！"+e.getMessage());
         }
     }
 
