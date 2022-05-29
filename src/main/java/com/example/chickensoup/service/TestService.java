@@ -18,5 +18,5 @@ public interface TestService {//仅老师和管理员可以使用这个服务
 
     String endTest(Integer testId) throws ServiceException;//立即停止考试（要求该考试在进行中）admin
 
-    String addStudentsToTest(List<Integer> students);
+    String addStudentsToTest(List<Integer> students,Integer testId);
 }

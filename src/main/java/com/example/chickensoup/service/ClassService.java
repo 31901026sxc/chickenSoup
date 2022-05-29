@@ -14,11 +14,13 @@ public interface ClassService {
 
     String deleteClass(Integer classId) throws ServiceException;
 
-    String modifyClass(ClassDto classDto) throws ServiceException;//返回success或者报错
+    String modifyClassInfo(ClassDto classDto) throws ServiceException;//返回success或者报错
 
     String addAStudent(UserDto userDto , Integer classId) throws ServiceException;
 
     String addStudents(List<UserDto> userDtoList,Integer classId) throws ServiceException;
+
+    String deleteAStudent(UserDto userDto , Integer classId);
 
     ClassDto searchClassById(Integer classId) throws ServiceException;
 

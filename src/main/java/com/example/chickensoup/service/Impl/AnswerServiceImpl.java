@@ -8,6 +8,7 @@ import com.example.chickensoup.form.OptionDto;
 import com.example.chickensoup.form.QuestionDto;
 import com.example.chickensoup.repository.AnswerSheetRepository;
 import com.example.chickensoup.service.AnswerService;
+import com.example.chickensoup.utils.Constants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,29 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public double autoCorrectAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException {
-        //TODO
+        try{
+            if (answerSheetDto.getScore()>=0)
+                throw new ServiceException("这张试卷已经批过了");
+            double score=0;
+            boolean flag=false;
+            for (AnswerSheetContentLinkDto link:answerSheetDto.getAnswerSheetContentLinks()
+            ) {
+
+                if (link.getQuestion().getQuestionType().equals(Constants.Q_CATEGORY_SUBJECTIVE))
+                    flag=true;
+                if (link.getQuestion().getAnswer().equals(link.getAnswerContent()))
+                {
+                    score+=link.getQuestion().getScore();
+                }
+                if (flag)
+                    score=-score;
+                return score;
+            }
+        }catch (Exception e)
+        {
+            throw new ServiceException(e.toString());
+        }
+
         return 0;
     }
 

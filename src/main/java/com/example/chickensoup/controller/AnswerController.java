@@ -27,8 +27,10 @@ public class AnswerController {
         Map<String,Object> map = new HashMap<>();
         try{
             Integer result = answerService.submitAnswerSheet(answerSheetDto);
+            double score = answerService.autoCorrectAnswerSheet(answerSheetDto);
             map.put("result",result);
             map.put("msg","提交成功");
+            map.put("你的客观得分是:",Math.abs(score));
         }catch (Exception e){
             map.put("result","fail");
             map.put("msg",e.getMessage());

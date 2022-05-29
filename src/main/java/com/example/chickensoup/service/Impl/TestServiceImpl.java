@@ -1,14 +1,8 @@
 package com.example.chickensoup.service.Impl;
 
-import com.example.chickensoup.entity.QuestionEntity;
-import com.example.chickensoup.entity.TestEntity;
-import com.example.chickensoup.entity.TestQuestionLinkEntity;
-import com.example.chickensoup.entity.UserEntity;
+import com.example.chickensoup.entity.*;
 import com.example.chickensoup.exception.ServiceException;
-import com.example.chickensoup.form.OptionDto;
-import com.example.chickensoup.form.QuestionDto;
-import com.example.chickensoup.form.TestDto;
-import com.example.chickensoup.form.TestSeedDto;
+import com.example.chickensoup.form.*;
 import com.example.chickensoup.repository.*;
 import com.example.chickensoup.service.TestService;
 import com.example.chickensoup.utils.Constants;
@@ -37,6 +31,8 @@ public class TestServiceImpl implements TestService {
     private OptionRepository optionRepository;
     @Autowired
     private TestQuestionLinkRepository testQuestionLinkRepository;
+    @Autowired
+    private UserTestLinkRepository userTestLinkRepository;
     @Override
     public TestDto addTest(TestSeedDto testSeed) throws ServiceException {
         try {
@@ -67,8 +63,6 @@ public class TestServiceImpl implements TestService {
         {
             throw new ServiceException(e.toString());
         }
-
-
     }
 
     @Override
@@ -84,7 +78,6 @@ public class TestServiceImpl implements TestService {
         {
             throw new ServiceException(e.toString());
         }
-
     }
 
     @Override
@@ -151,8 +144,24 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String addStudentsToTest(List<Integer> students) {
-        //TODO
+    public String addStudentsToTest(List<Integer> students,Integer testId) {
+        try{
+            TestEntity test= testRepository.getById(testId);
+            for (Integer id:students
+                 ) {
+                UserEntity user = userRepository.findById(id).get();
+                if (user.getUserType().equals(Constants.USER_CANCELLATION))
+                    throw new RuntimeException("用户id为:"+id+"的用户已注销");
+                UserTestLinkEntity temp = new UserTestLinkEntity();
+                temp.setTest(test);
+                temp.setUser(user);
+                temp.setUserType(user.getUserType());
+                userTestLinkRepository.save(temp);
+            }
+        }catch (Exception e){
+            throw new ServiceException(e.toString());
+        }
+
         return null;
     }
 }

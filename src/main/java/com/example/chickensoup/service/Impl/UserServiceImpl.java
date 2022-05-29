@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         try{
             UserEntity user = userRepository.findById(userId).get();
             if(user.getUserType().equals(Constants.USER_ADMIN)){
-                //TODO
+                return "failed,你想的美";
             }
             userRepository.delete(user);
             return "success";

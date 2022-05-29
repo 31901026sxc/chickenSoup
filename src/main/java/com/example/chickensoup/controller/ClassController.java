@@ -84,7 +84,7 @@ public class ClassController {
     public Map<String , Object> modifyClass(@RequestBody ClassDto classDto){
         Map<String,Object> map = new HashMap<>();
         try{
-            String result = classService.modifyClass(classDto);
+            String result = classService.modifyClassInfo(classDto);
             map.put("result",result);
             map.put("msg","修改成功");
         }catch (Exception e){

@@ -53,11 +53,11 @@ public class TestController {
         return map;
     }
     @GetMapping("/add-students")
-    @ApiOperation(value = "根据创建者id查考试")
-    public Map<String , Object> addStudents(@RequestBody List<Integer> students){//改变用户类型
+    @ApiOperation(value = "往考试里加考生")
+    public Map<String , Object> addStudents(@RequestBody List<Integer> students , Integer testId){
         Map<String,Object> map = new HashMap<>();
         try{
-            String result = testService.addStudentsToTest(students);
+            String result = testService.addStudentsToTest(students,testId);
             map.put("result",result);
             map.put("msg","修改成功");
         }catch (Exception e){
