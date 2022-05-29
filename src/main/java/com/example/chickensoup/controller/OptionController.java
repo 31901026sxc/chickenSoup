@@ -6,10 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +36,7 @@ public class OptionController {//teacher,student
     }
     @GetMapping("/delete")
     @ApiOperation(value = "删除一个选项")
-    public Map<String , Object> deleteOption(@RequestBody Integer optionId){//改变用户类型
+    public Map<String , Object> deleteOption(@RequestParam Integer optionId){
         Map<String,Object> map = new HashMap<>();
         try{
             String result = optionService.deleteOption(optionId);
@@ -67,7 +64,7 @@ public class OptionController {//teacher,student
     }
     @GetMapping("/search")
     @ApiOperation(value = "查找选项")
-    public Map<String , Object> modifyOption(@RequestBody Integer questionId){//改变用户类型
+    public Map<String , Object> searchOption(@RequestParam Integer questionId){//改变用户类型
         Map<String,Object> map = new HashMap<>();
         try{
             Set<OptionDto> result = optionService.searchOptionByQuestion(questionId);

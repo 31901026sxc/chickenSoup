@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OptionRepository extends JpaRepository<OptionEntity, Integer> {
-    List<OptionEntity> findByQuestionId(Integer questionId);
+    List<OptionEntity> findAllByQuestionId(Integer questionId);
 }

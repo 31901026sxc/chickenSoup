@@ -38,7 +38,7 @@ public class JWTInterceptorAdmin implements HandlerInterceptor {//被这个拦�
         }
 
         // 封装返回值
-        map.put("code", 40);
+        map.put("result", "fail");
         String json = new ObjectMapper().writeValueAsString(map);//返回json文件
         response.setContentType("application/json;charset=GB2312");
         response.getWriter().println(json);

@@ -40,7 +40,9 @@ public class QuestionServiceImpl implements QuestionService {
             for (OptionDto option:questionDto.getQuestionOptionLinks()
                  ) {
                 OptionEntity optionEntity = new OptionEntity();
-                BeanUtils.copyProperties(option,optionEntity);
+                optionEntity.setId(option.getId());
+                optionEntity.setOptionContent(option.getOptionContent());
+                optionEntity.setQuestionId(option.getQuestionId());
                 optionEntity.setQuestionId(id);
                 optionRepository.save(optionEntity);
             }
@@ -64,7 +66,9 @@ public class QuestionServiceImpl implements QuestionService {
             for (OptionDto option:questionDto.getQuestionOptionLinks()
             ) {
                 OptionEntity optionEntity = new OptionEntity();
-                BeanUtils.copyProperties(option,optionEntity);
+                optionEntity.setId(option.getId());
+                optionEntity.setOptionContent(option.getOptionContent());
+                optionEntity.setQuestionId(option.getQuestionId());
                 optionEntity.setQuestionId(id);
                 optionRepository.save(optionEntity);
             }
@@ -78,7 +82,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto searchQuestion(Integer questionId) throws ServiceException {
         try{
             Set<OptionDto> optionDtos = new HashSet<>();
-            optionRepository.findByQuestionId(questionId).stream().map(option ->
+            optionRepository.findAllByQuestionId(questionId).stream().map(option ->
                     optionDtos.add(new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent()))
             ).collect(Collectors.toSet());
             QuestionEntity question = questionRepository.findById(questionId).get();

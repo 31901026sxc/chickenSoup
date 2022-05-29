@@ -10,10 +10,7 @@ import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OptionServiceImpl implements OptionService {
@@ -24,7 +21,8 @@ public class OptionServiceImpl implements OptionService {
     public Integer addOption(OptionDto optionDto) throws ServiceException {
         try{
             OptionEntity optionEntity = new OptionEntity();
-            BeanUtils.copyProperties(optionEntity,optionDto);
+            optionEntity.setOptionContent(optionDto.getOptionContent());
+            optionEntity.setQuestionId(optionDto.getQuestionId());
             return optionRepository.save(optionEntity).getId();
         }catch (Exception e){
             throw new ServiceException("添加问题选项出错");
@@ -36,8 +34,12 @@ public class OptionServiceImpl implements OptionService {
         try{
             OptionEntity optionEntity = optionRepository.findById(OptionId).get();
             optionRepository.delete(optionEntity);
-        }catch (Exception e){
-            throw new ServiceException("删除问题选项出错");
+        }catch (NoSuchElementException e)
+        {
+            throw new ServiceException("没有这个选项");
+        }
+        catch (Exception e){
+            throw new ServiceException(e.toString());
         }
         return "success";
     }
@@ -46,8 +48,10 @@ public class OptionServiceImpl implements OptionService {
     public String modifyOption(OptionDto optionDto) throws ServiceException {
         try{
             OptionEntity optionEntity = new OptionEntity();
-            BeanUtils.copyProperties(optionEntity,optionDto);
-            optionRepository.save(optionEntity).getId();
+            optionEntity.setOptionContent(optionDto.getOptionContent());
+            optionEntity.setQuestionId(optionDto.getQuestionId());
+            optionEntity.setId(optionDto.getId());
+            optionRepository.save(optionEntity);
         }catch (Exception e){
             throw new ServiceException("修改问题选项出错");
         }
@@ -58,12 +62,12 @@ public class OptionServiceImpl implements OptionService {
     public Set<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException {
         try{
             Set<OptionDto> optionDtos = new HashSet<>();
-            optionRepository.findByQuestionId(questionId).stream().map(option ->
-                    optionDtos.add(new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent()))
+            optionRepository.findAllByQuestionId(questionId).stream().forEach(option ->
+                optionDtos.add(new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent()))
             );
             return optionDtos;
         }catch (Exception e){
-            throw new ServiceException("删除问题选项出错");
+            throw new ServiceException("查询问题选项出错");
         }
     }
 }

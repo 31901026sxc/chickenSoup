@@ -10,6 +10,7 @@ import com.example.chickensoup.repository.ClassRepository;
 import com.example.chickensoup.repository.ClassUserLinkRepository;
 import com.example.chickensoup.repository.UserRepository;
 import com.example.chickensoup.service.ClassService;
+import com.example.chickensoup.utils.Constants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,11 @@ public class ClassServiceImpl implements ClassService {
     public Integer addClassInfo(ClassDto classDto) throws ServiceException {
         try{
             ClassEntity classEntity = new ClassEntity();
-            BeanUtils.copyProperties(classDto, classEntity);
+            classEntity.setClassMark(classDto.getClassMark());
+            classEntity.setClassName(classDto.getClassName());
             return classRepository.save(classEntity).getId();
         }catch (Exception e){
-            throw new ServiceException("添加班级出错！");
+            throw new ServiceException("添加班级出错！"+e);
         }
     }
 
@@ -41,10 +43,23 @@ public class ClassServiceImpl implements ClassService {
     public Integer addClass(ClassDto classDto) throws ServiceException {
         try{
             ClassEntity classEntity = new ClassEntity();
-            BeanUtils.copyProperties(classDto, classEntity);
+            classEntity.setClassMark(classDto.getClassMark());
+            classEntity.setClassName(classDto.getClassName());
+            Set<UserEntity> users= new HashSet<>();
+            for (UserDto user:classDto.getClassUserLinks()
+                 ) {
+                UserEntity temp = userRepository.getById(user.getId());
+                if (temp.getUserType().equals(Constants.USER_CANCELLATION))
+                    throw new ServiceException("id为"+temp.getId()+"的学生已注销");
+                users.add(temp);
+            }
             return classRepository.save(classEntity).getId();
-        }catch (Exception e){
-            throw new ServiceException("添加班级出错！");
+        }catch (NoSuchElementException e)
+        {
+            throw new ServiceException("有一个学生id异常"+e.toString());
+        }
+        catch (Exception e){
+            throw new ServiceException("添加班级出错！"+e);
         }
     }
 
@@ -57,7 +72,7 @@ public class ClassServiceImpl implements ClassService {
         }catch (NoSuchElementException e){
             throw new ServiceException("该班级不存在！");
         }catch (Exception e){
-            throw new ServiceException("删除班级出错！");
+            throw new ServiceException("删除班级出错！"+e);
         }
     }
 
@@ -65,11 +80,13 @@ public class ClassServiceImpl implements ClassService {
     public String modifyClassInfo(ClassDto classDto) throws ServiceException {
         try{
             ClassEntity classEntity = new ClassEntity();
-            BeanUtils.copyProperties(classDto, classEntity);
+            classEntity.setClassName(classDto.getClassName());
+            classEntity.setClassMark(classDto.getClassMark());
+            classEntity.setId(classDto.getId());
             classRepository.save(classEntity);
             return "success";
         }catch (Exception e){
-            throw new ServiceException("修改班级信息出错！");
+            throw new ServiceException("修改班级信息出错！"+e);
         }
     }
 
@@ -78,16 +95,21 @@ public class ClassServiceImpl implements ClassService {
         if(!userRepository.findById(userDto.getId()).get().getId().equals(userDto.getId()))
             throw new ServiceException("该用户不存在！");
         try{
-            UserEntity userEntity = new UserEntity();
-            BeanUtils.copyProperties(userDto, userEntity);
+            UserEntity userEntity = userRepository.getById(userDto.getId());
+            if (userEntity.getUserType().equals(Constants.USER_CANCELLATION))
+                throw new ServiceException("该学生id已注销");
             ClassEntity classEntity = classRepository.findById(classId).get();
             ClassUserLinkEntity classUserLink = new ClassUserLinkEntity();
             classUserLink.set_class(classEntity);
             classUserLink.setUser(userEntity);
             classUserLinkRepository.save(classUserLink);
             return "success";
-        }catch (Exception e){
-            throw new ServiceException("添加学生出错！");
+        }catch (NoSuchElementException e)
+        {
+            throw new ServiceException("找不到改学生的id");
+        }
+        catch (Exception e){
+            throw new ServiceException("添加学生出错！"+e.toString());
         }
     }
 
@@ -114,15 +136,18 @@ public class ClassServiceImpl implements ClassService {
         if(!userRepository.findById(userDto.getId()).get().getId().equals(userDto.getId()))
             throw new ServiceException("该用户不存在！");
         try{
-            UserEntity userEntity = new UserEntity();
-            BeanUtils.copyProperties(userDto, userEntity);
+            UserEntity userEntity = userRepository.getById(userDto.getId());
             ClassEntity classEntity = classRepository.findById(classId).get();
             ClassUserLinkEntity classUserLink = new ClassUserLinkEntity();
             classUserLink.set_class(classEntity);
             classUserLink.setUser(userEntity);
             classUserLinkRepository.delete(classUserLink);
             return "success";
-        }catch (Exception e){
+        }catch (NoSuchElementException e)
+        {
+            throw new ServiceException("找不到信息"+e);
+        }
+        catch (Exception e){
             throw new ServiceException("删除学生出错！");
         }
     }

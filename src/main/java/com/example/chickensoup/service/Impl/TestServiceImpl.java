@@ -45,7 +45,12 @@ public class TestServiceImpl implements TestService {
             Set<QuestionEntity> questionEntities = new HashSet<>();
             Set<QuestionDto> questionDtos = new HashSet<>();
             TestEntity test = new TestEntity();
-            BeanUtils.copyProperties(testSeed,test);
+            test.setTestEndTime(testSeed.getTestEndTime());
+            test.setTestStatus(testSeed.getTestStatus());
+            test.setTestStartTime(testSeed.getTestStartTime());
+            test.setTestDescription(testSeed.getTestDescription());
+            test.setCreatorId(testSeed.getCreatorId());
+            test.setTestCreateTime(testSeed.getTestCreateTime());
             testSeed.getQuestions().forEach(id ->
                     questionEntities.add(questionRepository.findById(id).get()));
             test = testRepository.save(test);

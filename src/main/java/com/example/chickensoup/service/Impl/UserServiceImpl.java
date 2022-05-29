@@ -22,11 +22,16 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("新建用户不能上传id");
         }
         try{
+            System.out.println(userDto);
             UserEntity user = new UserEntity();
-            BeanUtils.copyProperties(userDto, user);
+            user.setUserType(userDto.getUserType());
+            user.setUserName(userDto.getUserName());
+            user.setDepartment(userDto.getDepartment());
+            user.setUserPassword(user.getUserPassword());
+            System.out.println(user);
             return userRepository.save(user).getId();
         }catch (Exception e){
-            throw new ServiceException("添加用户出错！");
+            throw new ServiceException(e.toString());
         }
 
     }
@@ -91,7 +96,7 @@ public class UserServiceImpl implements UserService {
         try {
             UserEntity user = userRepository.getById(userId);
             UserDto userDto = new UserDto(user.getId(), user.getUserName(), user.getDepartment(),
-                    user.getUserType(), null);
+                    user.getUserType(), "******");
             return userDto;
         }catch (Exception e){
             throw new ServiceException("查找用户失败！");
@@ -115,6 +120,8 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.getById(userId);
         if (user==null)
             throw new RuntimeException("没有该用户");
+        if (user.getUserType().equals(Constants.USER_CANCELLATION))
+            throw new RuntimeException("该用户已注销");
         if (!user.getUserPassword().equals(password))
             throw new RuntimeException("密码错误");
         return user;

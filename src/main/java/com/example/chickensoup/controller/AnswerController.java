@@ -43,6 +43,7 @@ public class AnswerController {
         Map<String,Object> map = new HashMap<>();
         try{
             AnswerSheetDto result = answerService.searchAnswerSheetById(answerSheetId);
+            answerService.autoCorrectAnswerSheet(result);
             map.put("result",result);
             map.put("msg","查询成功");
         }catch (Exception e){

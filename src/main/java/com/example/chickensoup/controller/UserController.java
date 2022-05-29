@@ -64,19 +64,19 @@ public class UserController {
             map.put("msg","创建成功");
         }catch (Exception e){
             map.put("result","fail");
-            map.put("msg",e.getMessage());
+            map.put("msg",e.toString());
         }
         return map;
     }
 
     @GetMapping("/search")
     @ApiOperation(value = "查找用户")
-    public Map<String , Object> searchUser(@RequestBody int userId){
+    public Map<String , Object> searchUser(@RequestParam int userId){
         Map<String,Object> map = new HashMap<>();
         try{
             UserDto user = userService.searchUser(userId);
             map.put("result",user);
-            map.put("msg","注销成功");
+            map.put("msg","查找用戶成功");
         }catch (Exception e){
             map.put("result","fail");
             map.put("msg",e.getMessage());
