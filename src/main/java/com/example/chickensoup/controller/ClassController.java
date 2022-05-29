@@ -81,7 +81,7 @@ public class ClassController {
     }
     @GetMapping("/modify")
     @ApiOperation(value = "修改班级信息")
-    public Map<String , Object> modifyClass(@RequestBody ClassDto classDto){
+    public Map<String , Object> modifyClassInfo(@RequestBody ClassDto classDto){
         Map<String,Object> map = new HashMap<>();
         try{
             String result = classService.modifyClassInfo(classDto);

@@ -13,12 +13,22 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JWTInterceptor())
                 .addPathPatterns("/user/**")
-//                .addPathPatterns("/test/**")
+                .addPathPatterns("/test/**")
+                .addPathPatterns("/admin/**")
+                .addPathPatterns("/option/**")
+                .addPathPatterns("/question/**")
+                .addPathPatterns("/class/**")
+                .addPathPatterns("/answer/**")
                 .excludePathPatterns("/user/login");
-//        registry.addInterceptor(new JWTInterceptorTeacher())//教师级权限
-//                .addPathPatterns("user/modify")
-//                .addPathPatterns("/user/add");
-//        registry.addInterceptor(new JWTInterceptorAdmin())//管理员级权限
-//                .addPathPatterns("/user/cancel");
+        registry.addInterceptor(new JWTInterceptorTeacher())//教师级权限
+                .addPathPatterns("user/modify")
+                .addPathPatterns("/user/add")
+                .addPathPatterns("/answer/searchByTest")
+                .addPathPatterns("/class/**")
+                .addPathPatterns("/option/**")
+                .addPathPatterns("/question/**")
+                .addPathPatterns("/test/**");
+        registry.addInterceptor(new JWTInterceptorAdmin())//管理员级权限
+                .addPathPatterns("/admin/**");
     }
 }

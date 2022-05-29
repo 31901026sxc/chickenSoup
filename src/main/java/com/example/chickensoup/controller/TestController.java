@@ -40,7 +40,7 @@ public class TestController {
     }
     @GetMapping("/search-creator")
     @ApiOperation(value = "根据创建者id查考试")
-    public Map<String , Object> searchByCreator(@RequestParam Integer creatorId){//改变用户类型
+    public Map<String , Object> searchByCreator(@RequestParam Integer creatorId){
         Map<String,Object> map = new HashMap<>();
         try{
             List<TestDto> result = testService.searchTestByCreator(creatorId);
