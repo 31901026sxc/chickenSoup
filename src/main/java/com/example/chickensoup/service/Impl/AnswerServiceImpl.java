@@ -12,6 +12,7 @@ import com.example.chickensoup.repository.*;
 import com.example.chickensoup.service.AnswerService;
 import com.example.chickensoup.utils.Constants;
 import org.apache.catalina.User;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -214,5 +215,21 @@ public class AnswerServiceImpl implements AnswerService {
         {
             throw new ServiceException(e.toString());
         }
+    }
+
+    @Override
+    public DefaultCategoryDataset createDataset(Integer studentId) throws ServiceException {
+        AnswerServiceImpl answerService ;
+        DefaultCategoryDataset linedataset = new DefaultCategoryDataset();
+        List<AnswerSheetDto> answerSheetDtos = searchAllStudentSheets(studentId);
+        // 横轴名称(列名称)
+        ArrayList<String> tests = new ArrayList<>();
+        ArrayList<Double> grades = new ArrayList<>();
+        for (AnswerSheetDto dto:answerSheetDtos
+             ) {
+            linedataset.addValue(Double.valueOf(dto.getScore()),studentId,dto.getTestId());
+        }
+
+        return linedataset;
     }
 }

@@ -2,6 +2,7 @@ package com.example.chickensoup.service;
 
 import com.example.chickensoup.exception.ServiceException;
 import com.example.chickensoup.form.AnswerSheetDto;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface AnswerService {
     List<AnswerSheetDto> searchAllAnswerSheets(Integer testId) throws ServiceException;//teacher，admin
 
     List<AnswerSheetDto> searchAllStudentSheets(Integer studentId) throws ServiceException;
+
+    DefaultCategoryDataset createDataset(Integer studentId) throws ServiceException;
 }
