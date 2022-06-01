@@ -192,7 +192,7 @@ public class AnswerServiceImpl implements AnswerService {
             List<AnswerSheetDto> list = new ArrayList<AnswerSheetDto>();
             Set<OptionDto> options = new HashSet<>();
 
-            answerSheetRepository.findByTest(studentId).forEach(answerSheet ->{
+            answerSheetRepository.findByUserId(studentId).forEach(answerSheet ->{
                 AnswerSheetDto answerSheetDto = new AnswerSheetDto(
                         answerSheet.getId(),answerSheet.getUser().getId(),answerSheet.getTest().getId()
                         ,answerSheet.getUploadTime(), answerSheet.getScore(),
@@ -208,6 +208,7 @@ public class AnswerServiceImpl implements AnswerService {
                                 )
                         )).collect(Collectors.toSet())
                 );
+                System.out.println(answerSheetDto.getUserId());
                 list.add(answerSheetDto);
             });
             return list;
@@ -227,6 +228,7 @@ public class AnswerServiceImpl implements AnswerService {
         ArrayList<Double> grades = new ArrayList<>();
         for (AnswerSheetDto dto:answerSheetDtos
              ) {
+            System.out.println(dto.getId());
             linedataset.addValue(Double.valueOf(dto.getScore()),studentId,dto.getTestId());
         }
 
