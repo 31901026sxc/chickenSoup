@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Component
 public class JWTInterceptorAdmin implements HandlerInterceptor {//被这个拦截器拦下来的学生一律拒绝访问
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map<String, Object> map = new HashMap<>();
@@ -23,17 +24,17 @@ public class JWTInterceptorAdmin implements HandlerInterceptor {//被这个拦�
         // 捕获刚刚JWT中抛出的异常,并封装对应的返回信息
         try {
             JWTUtils.verify(token);
-            if (!(Integer.valueOf(JWTUtils.getUserType(token))>2))//只有管理员才有该权限
-                map.put("msg","你没有这个权限");
+            if (!(Integer.valueOf(JWTUtils.getUserType(token)) > 2))//只有管理员才有该权限
+                map.put("msg", "你没有这个权限");
             else
                 return true;
-        }catch (SignatureVerificationException e){
+        } catch (SignatureVerificationException e) {
             map.put("msg", "无效签名");
-        }catch (TokenExpiredException e){
+        } catch (TokenExpiredException e) {
             map.put("msg", "已过期");
-        }catch (AlgorithmMismatchException e){
+        } catch (AlgorithmMismatchException e) {
             map.put("msg", "算法不一致");
-        }catch (Exception e){
+        } catch (Exception e) {
             map.put("msg", "无效身份信息");
         }
 

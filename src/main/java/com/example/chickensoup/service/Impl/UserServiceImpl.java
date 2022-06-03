@@ -16,9 +16,10 @@ import java.util.NoSuchElementException;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public Integer addUser(UserDto userDto) throws ServiceException {
-        try{
+        try {
             UserEntity user = new UserEntity();
             user.setUserType(userDto.getUserType());
             user.setUserName(userDto.getUserName());
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
             user.setUserPassword(userDto.getUserPassword());
             System.out.println(user);
             return userRepository.save(user).getId();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException(e.toString());
         }
 
@@ -34,16 +35,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String deleteUser(Integer userId) throws ServiceException {
-        try{
+        try {
             UserEntity user = userRepository.findById(userId).get();
-            if(user.getUserType().equals(Constants.USER_ADMIN)){
+            if (user.getUserType().equals(Constants.USER_ADMIN)) {
                 return "failed,你想的美";
             }
             userRepository.delete(user);
             return "success";
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new ServiceException("该用户不存在！");
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("删除用户错误！");
         }
     }
@@ -51,8 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String cancelUser(Integer userId) throws ServiceException {
         UserEntity user = userRepository.getById(userId);
-        if (user.getUserType().equals(Constants.USER_CANCELLATION))
-        {
+        if (user.getUserType().equals(Constants.USER_CANCELLATION)) {
             throw new ServiceException("该用户已注销");
         }
         user.setUserType(Constants.USER_CANCELLATION);
@@ -62,26 +62,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String modifyUser(UserDto userDto) throws ServiceException {
-        try{
+        try {
             UserEntity user = userRepository.getById(userDto.getId());
             if (!user.getUserType().equals(userDto.getUserType()))
                 throw new ServiceException("你无法在这里修改用户权限");
             BeanUtils.copyProperties(userDto, user);//√
             userRepository.save(user);
             return "success";
-        }catch (Exception e){
-            throw new ServiceException("修改用户信息（不包含类型）出错！"+e.getMessage());
+        } catch (Exception e) {
+            throw new ServiceException("修改用户信息（不包含类型）出错！" + e.getMessage());
         }
     }
 
     @Override
     public String modifyUserType(UserDto userDto) throws ServiceException {
-        try{
+        try {
             UserEntity user = new UserEntity();
             BeanUtils.copyProperties(userDto, user);
             userRepository.save(user);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("修改用户类型出错！");
         }
     }
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
             UserDto userDto = new UserDto(user.getId(), user.getUserName(), user.getDepartment(),
                     user.getUserType(), "******");
             return userDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("查找用户失败！");
         }
     }
@@ -103,9 +103,9 @@ public class UserServiceImpl implements UserService {
         try {
             UserEntity user = userRepository.getById(userId);
             UserDto userDto = new UserDto(user.getId(), user.getUserName(), user.getDepartment(),
-                    user.getUserType(),user.getUserPassword());
+                    user.getUserType(), user.getUserPassword());
             return userDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("管理员查找用户失败！");
         }
     }
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(Integer userId, String password) {
         UserEntity user = userRepository.getById(userId);
-        if (user==null)
+        if (user == null)
             throw new RuntimeException("没有该用户");
         if (user.getUserType().equals(Constants.USER_CANCELLATION))
             throw new RuntimeException("该用户已注销");

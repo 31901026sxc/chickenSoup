@@ -41,10 +41,10 @@ public class GraphController {
     private AnswerServiceImpl answerService;
 
     @GetMapping("/makeLineAndShapeChart")
-    public String makeLineAndShapeChart(@RequestParam Integer studentId , HttpServletRequest request, Model model) throws IOException {
+    public String makeLineAndShapeChart(@RequestParam Integer studentId, HttpServletRequest request, Model model) throws IOException {
         // 定义图表对象数据，数据
-        DefaultCategoryDataset  dataset  = answerService.createDataset(studentId);
-        JFreeChart  chart = ChartFactory.createLineChart(
+        DefaultCategoryDataset dataset = answerService.createDataset(studentId);
+        JFreeChart chart = ChartFactory.createLineChart(
                 "学生分数折线图", // chart title
                 "考试", // domain axis label
                 "分数", // range axis label
@@ -68,8 +68,8 @@ public class GraphController {
         legend.setItemFont(new Font("宋体", Font.BOLD, 14));
         //设置竖轴的字体
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setLabelFont(new Font("宋体" , Font.BOLD , 19)); //设置数轴的字体
-        rangeAxis.setTickLabelFont(new Font("宋体" , Font.BOLD , 16));
+        rangeAxis.setLabelFont(new Font("宋体", Font.BOLD, 19)); //设置数轴的字体
+        rangeAxis.setTickLabelFont(new Font("宋体", Font.BOLD, 16));
         LineAndShapeRenderer lasp = (LineAndShapeRenderer) plot.getRenderer();
         lasp.setBaseShapesVisible(true);
         lasp.setDrawOutlines(true);
@@ -90,7 +90,7 @@ public class GraphController {
         rangeAxis.setUpperMargin(0.20);
         rangeAxis.setLabelAngle(Math.PI / 2.0);
 
-        LineAndShapeRenderer  renderer =  (LineAndShapeRenderer) plot
+        LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
                 .getRenderer();
         renderer.setSeriesPaint(0, Color.BLACK);//折线颜色，下标0始
         // 6. 将图形转换为图片，传到前台

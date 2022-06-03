@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Component
 public class JWTInterceptor implements HandlerInterceptor {//这里是所有人都有权限的接口
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map<String, Object> map = new HashMap<>();
@@ -25,14 +26,14 @@ public class JWTInterceptor implements HandlerInterceptor {//这里是所有人�
         try {
             JWTUtils.verify(token);
             return true;
-        }catch (SignatureVerificationException e){
+        } catch (SignatureVerificationException e) {
             map.put("msg", "无效签名");
-        }catch (TokenExpiredException e){
+        } catch (TokenExpiredException e) {
             map.put("msg", "已过期");
-        }catch (AlgorithmMismatchException e){
+        } catch (AlgorithmMismatchException e) {
             map.put("msg", "算法不一致");
-        }catch (Exception e){
-            map.put("msg", e.toString()+"你token呢");
+        } catch (Exception e) {
+            map.put("msg", e.toString() + "你token呢");
         }
         // 封装返回值
         String json = new ObjectMapper().writeValueAsString(map);//返回json文件

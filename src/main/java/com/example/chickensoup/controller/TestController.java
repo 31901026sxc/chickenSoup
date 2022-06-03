@@ -26,43 +26,45 @@ public class TestController {
 
     @GetMapping("/add")
     @ApiOperation(value = "加一个考试")
-    public Map<String , Object> addTest(@RequestBody TestSeedDto testSeed){//改变用户类型
-        Map<String,Object> map = new HashMap<>();
-        try{
+    public Map<String, Object> addTest(@RequestBody TestSeedDto testSeed) {//改变用户类型
+        Map<String, Object> map = new HashMap<>();
+        try {
             TestDto result = testService.addTest(testSeed);
-            map.put("result",result);
-            map.put("msg","创建成功");
-        }catch (Exception e){
-            map.put("result","fail");
-            map.put("msg",e.getMessage());
+            map.put("result", result);
+            map.put("msg", "创建成功");
+        } catch (Exception e) {
+            map.put("result", "fail");
+            map.put("msg", e.getMessage());
         }
         return map;
     }
+
     @GetMapping("/search-creator")
     @ApiOperation(value = "根据创建者id查考试")
-    public Map<String , Object> searchByCreator(@RequestParam Integer creatorId){
-        Map<String,Object> map = new HashMap<>();
-        try{
+    public Map<String, Object> searchByCreator(@RequestParam Integer creatorId) {
+        Map<String, Object> map = new HashMap<>();
+        try {
             List<TestDto> result = testService.searchTestByCreator(creatorId);
-            map.put("result",result);
-            map.put("msg","修改成功");
-        }catch (Exception e){
-            map.put("result","fail");
-            map.put("msg",e.getMessage());
+            map.put("result", result);
+            map.put("msg", "修改成功");
+        } catch (Exception e) {
+            map.put("result", "fail");
+            map.put("msg", e.getMessage());
         }
         return map;
     }
+
     @GetMapping("/add-students")
     @ApiOperation(value = "往考试里加考生")
-    public Map<String , Object> addStudents(@RequestBody List<Integer> students , Integer testId){
-        Map<String,Object> map = new HashMap<>();
-        try{
-            String result = testService.addStudentsToTest(students,testId);
-            map.put("result",result);
-            map.put("msg","修改成功");
-        }catch (Exception e){
-            map.put("result","fail");
-            map.put("msg",e.getMessage());
+    public Map<String, Object> addStudents(@RequestBody List<Integer> students, Integer testId) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String result = testService.addStudentsToTest(students, testId);
+            map.put("result", result);
+            map.put("msg", "修改成功");
+        } catch (Exception e) {
+            map.put("result", "fail");
+            map.put("msg", e.getMessage());
         }
         return map;
     }

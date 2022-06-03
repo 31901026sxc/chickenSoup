@@ -19,26 +19,24 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public Integer addOption(OptionDto optionDto) throws ServiceException {
-        try{
+        try {
             OptionEntity optionEntity = new OptionEntity();
             optionEntity.setOptionContent(optionDto.getOptionContent());
             optionEntity.setQuestionId(optionDto.getQuestionId());
             return optionRepository.save(optionEntity).getId();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("添加问题选项出错");
         }
     }
 
     @Override
     public String deleteOption(Integer OptionId) throws ServiceException {
-        try{
+        try {
             OptionEntity optionEntity = optionRepository.findById(OptionId).get();
             optionRepository.delete(optionEntity);
-        }catch (NoSuchElementException e)
-        {
+        } catch (NoSuchElementException e) {
             throw new ServiceException("没有这个选项");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException(e.toString());
         }
         return "success";
@@ -46,13 +44,13 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public String modifyOption(OptionDto optionDto) throws ServiceException {
-        try{
+        try {
             OptionEntity optionEntity = new OptionEntity();
             optionEntity.setOptionContent(optionDto.getOptionContent());
             optionEntity.setQuestionId(optionDto.getQuestionId());
             optionEntity.setId(optionDto.getId());
             optionRepository.save(optionEntity);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("修改问题选项出错");
         }
         return "success";
@@ -60,13 +58,13 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public Set<OptionDto> searchOptionByQuestion(Integer questionId) throws ServiceException {
-        try{
+        try {
             Set<OptionDto> optionDtos = new HashSet<>();
             optionRepository.findAllByQuestionId(questionId).stream().forEach(option ->
-                optionDtos.add(new OptionDto(option.getId(),option.getQuestionId(),option.getOptionContent()))
+                    optionDtos.add(new OptionDto(option.getId(), option.getQuestionId(), option.getOptionContent()))
             );
             return optionDtos;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("查询问题选项出错");
         }
     }

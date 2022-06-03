@@ -6,6 +6,7 @@ import com.example.chickensoup.form.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public interface ClassService {
     Integer addClassInfo(ClassDto classDto) throws ServiceException;//指创建一个空班级
@@ -16,11 +17,11 @@ public interface ClassService {
 
     String modifyClassInfo(ClassDto classDto) throws ServiceException;//返回success或者报错
 
-    String addAStudent(UserDto userDto , Integer classId) throws ServiceException;
+    String addAStudent(UserDto userDto, Integer classId) throws ServiceException;
 
-    String addStudents(List<UserDto> userDtoList,Integer classId) throws ServiceException;
+    String addStudents(List<UserDto> userDtoList, Integer classId) throws ServiceException;
 
-    String deleteAStudent(UserDto userDto , Integer classId);
+    String deleteAStudent(UserDto userDto, Integer classId);
 
     ClassDto searchClassById(Integer classId) throws ServiceException;
 
