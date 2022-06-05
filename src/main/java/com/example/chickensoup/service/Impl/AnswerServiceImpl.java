@@ -68,7 +68,7 @@ public class AnswerServiceImpl implements AnswerService {
     public double autoCorrectAnswerSheet(AnswerSheetDto answerSheetDto) throws ServiceException {
         try {
             if (answerSheetDto.getScore() >= 0)
-                throw new ServiceException("这张试卷已经批过了");
+                return answerSheetDto.getScore();
             double score = 0;
             boolean flag = false;
             for (AnswerSheetContentLinkDto link : answerSheetDto.getAnswerSheetContentLinks()
