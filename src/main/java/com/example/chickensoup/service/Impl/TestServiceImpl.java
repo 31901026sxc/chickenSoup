@@ -41,7 +41,7 @@ public class TestServiceImpl implements TestService {
             if (creator.getUserType().equals(Constants.USER_STUDENT))
                 throw new ServiceException("学生没有权限来创建试卷");
             if (testSeed.getTestEndTime().isAfter(Instant.ofEpochSecond(System.currentTimeMillis())) ||
-                    testSeed.getTestEndTime().isAfter(testSeed.getTestStartTime()))
+                    testSeed.getTestEndTime().isBefore(testSeed.getTestStartTime()))
                 throw new ServiceException("试卷结束时间非法");
             Set<QuestionEntity> questionEntities = new HashSet<>();
             Set<QuestionDto> questionDtos = new HashSet<>();

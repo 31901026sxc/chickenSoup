@@ -26,7 +26,7 @@ public class TestController {
 
     @GetMapping("/add")
     @ApiOperation(value = "加一个考试")
-    public Map<String, Object> addTest(@RequestBody TestSeedDto testSeed) {//改变用户类型
+    public Map<String, Object> addTest(@RequestBody TestSeedDto testSeed) {
         Map<String, Object> map = new HashMap<>();
         try {
             TestDto result = testService.addTest(testSeed);
