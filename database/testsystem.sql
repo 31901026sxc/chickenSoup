@@ -157,7 +157,7 @@ CREATE TABLE `test`  (
   `test_end_time` datetime NULL DEFAULT NULL COMMENT '考试截止时间',
   `test_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '考试状态',
   `creator_id` int NULL DEFAULT NULL COMMENT '创建者id',
-  `test_ description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '考试说明',
+  `test_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '考试说明',
   PRIMARY KEY (`test_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
