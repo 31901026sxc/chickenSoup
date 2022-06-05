@@ -8,6 +8,7 @@ import java.util.Set;
 @Table(name = "class")
 public class ClassEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "class_id", nullable = false)
     private Integer id;
 

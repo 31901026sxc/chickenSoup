@@ -56,7 +56,7 @@ public class TestController {
 
     @GetMapping("/add-students")
     @ApiOperation(value = "往考试里加考生")
-    public Map<String, Object> addStudents(@RequestBody List<Integer> students, Integer testId) {
+    public Map<String, Object> addStudents(@RequestBody List<Integer> students,@RequestParam Integer testId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = testService.addStudentsToTest(students, testId);

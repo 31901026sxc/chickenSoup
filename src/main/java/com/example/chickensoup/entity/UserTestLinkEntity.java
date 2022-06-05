@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "user_test_link")
 public class UserTestLinkEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "link_id", nullable = false)
     private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)

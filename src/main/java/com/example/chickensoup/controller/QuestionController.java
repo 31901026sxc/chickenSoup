@@ -24,7 +24,7 @@ public class QuestionController {
 
     @GetMapping("/add")
     @ApiOperation(value = "加一个问题")
-    public Map<String, Object> addQuestion(@RequestBody QuestionDto questionDto) {//改变用户类型
+    public Map<String, Object> addQuestion(@RequestBody QuestionDto questionDto) {
         Map<String, Object> map = new HashMap<>();
         try {
             Integer result = questionService.addQuestion(questionDto);
@@ -39,7 +39,7 @@ public class QuestionController {
 
     @GetMapping("/modify")
     @ApiOperation(value = "修改一个问题")
-    public Map<String, Object> modifyQuestion(@RequestBody QuestionDto questionDto) {//改变用户类型
+    public Map<String, Object> modifyQuestion(@RequestBody QuestionDto questionDto) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = questionService.modifyQuestion(questionDto);
@@ -54,7 +54,7 @@ public class QuestionController {
 
     @GetMapping("/search-id")
     @ApiOperation(value = "根据id查一个问题")
-    public Map<String, Object> searchQuestionById(@RequestParam Integer questionId) {//改变用户类型
+    public Map<String, Object> searchQuestionById(@RequestParam Integer questionId) {
         Map<String, Object> map = new HashMap<>();
         try {
             QuestionDto result = questionService.searchQuestion(questionId);
@@ -69,7 +69,7 @@ public class QuestionController {
 
     @GetMapping("/search-keyword")
     @ApiOperation(value = "根据id查一个问题")
-    public Map<String, Object> searchQuestionByKeyword(@RequestBody String keyword) {//改变用户类型
+    public Map<String, Object> searchQuestionByKeyword(@RequestParam String keyword) {
         Map<String, Object> map = new HashMap<>();
         try {
             List<QuestionDto> result = questionService.searchQuestionByKeyword(keyword);

@@ -50,7 +50,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/delete-user")
     @ApiOperation(value = "从数据库中删除用户")
-    public Map<String, Object> deleteUser(@RequestBody Integer userId) {
+    public Map<String, Object> deleteUser(@RequestParam Integer userId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = userService.deleteUser(userId);
@@ -65,7 +65,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/cancel")
     @ApiOperation(value = "从数据库中注销用户")
-    public Map<String, Object> cancelUser(@RequestBody int userId) {
+    public Map<String, Object> cancelUser(@RequestParam int userId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = userService.cancelUser(userId);
@@ -80,7 +80,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/search-user")
     @ApiOperation(value = "从数据库中获取用户全部信息（包括密码）")
-    public Map<String, Object> searchUser(@RequestBody int userId) {
+    public Map<String, Object> searchUser(@RequestParam Integer userId) {
         Map<String, Object> map = new HashMap<>();
         try {
             UserDto user = userService.adminSearchUser(userId);
@@ -95,7 +95,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/delete-class")
     @ApiOperation(value = "从数据库中删除班级")
-    public Map<String, Object> deleteClass(@RequestBody int classId) {
+    public Map<String, Object> deleteClass(@RequestParam int classId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = classService.deleteClass(classId);
@@ -110,7 +110,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/delete-test")
     @ApiOperation(value = "从数据库中删除考试")
-    public Map<String, Object> deleteTest(@RequestBody Integer testId) {
+    public Map<String, Object> deleteTest(@RequestParam Integer testId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = testService.deleteTest(testId);
@@ -125,7 +125,7 @@ public class AdminController {//对于管理员的超级权限
 
     @GetMapping("/cancel-test")
     @ApiOperation(value = "从数据库中取消考试")
-    public Map<String, Object> cancelTest(@RequestBody Integer testId) {
+    public Map<String, Object> cancelTest(@RequestParam Integer testId) {
         Map<String, Object> map = new HashMap<>();
         try {
             String result = testService.cancelTest(testId);

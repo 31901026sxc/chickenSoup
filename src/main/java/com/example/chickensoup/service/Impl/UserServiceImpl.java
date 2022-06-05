@@ -79,8 +79,14 @@ public class UserServiceImpl implements UserService {
         try {
             UserEntity user = new UserEntity();
             BeanUtils.copyProperties(userDto, user);
-            userRepository.save(user);
+            if (user.getUserType().equals(Constants.USER_CANCELLATION)||user.getUserType().equals(Constants.USER_STUDENT)||
+            user.getUserType().equals(Constants.USER_TEACHER)||user.getUserType().equals(Constants.USER_ADMIN))
+                userRepository.save(user);
+            else
+                throw new ServiceException("类型修改为非法字符");
             return "success";
+        } catch (ServiceException e){
+            throw new ServiceException(e.toString());
         } catch (Exception e) {
             throw new ServiceException("修改用户类型出错！");
         }

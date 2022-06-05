@@ -7,10 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +28,7 @@ public class ClassController {
         try {
             Integer classId = classService.addClassInfo(classDto);
             map.put("result", "班级号" + classId);
-            map.put("msg", "登录成功");
+            map.put("msg", "创建成功");
         } catch (Exception e) {
             map.put("result", "fail");
             map.put("msg", e.getMessage());
@@ -101,12 +98,12 @@ public class ClassController {
 
     @GetMapping("/search")
     @ApiOperation(value = "查找班级")
-    public Map<String, Object> searchClass(@RequestBody Integer classId) {
+    public Map<String, Object> searchClass(@RequestParam Integer classId) {
         Map<String, Object> map = new HashMap<>();
         try {
             ClassDto classDto = classService.searchClassById(classId);
             map.put("result", classDto);
-            map.put("msg", "修改成功");
+            map.put("msg", "查询成功");
         } catch (Exception e) {
             map.put("result", "fail");
             map.put("msg", e.getMessage());

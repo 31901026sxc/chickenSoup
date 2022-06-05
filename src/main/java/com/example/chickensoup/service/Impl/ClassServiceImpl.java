@@ -53,7 +53,15 @@ public class ClassServiceImpl implements ClassService {
                     throw new ServiceException("id为" + temp.getId() + "的学生已注销");
                 users.add(temp);
             }
-            return classRepository.save(classEntity).getId();
+            int id  = classRepository.save(classEntity).getId();
+            for (UserDto user : classDto.getClassUserLinks()
+            ) {
+                ClassUserLinkEntity temp = new ClassUserLinkEntity();
+                temp.setUser(userRepository.getById(user.getId()));
+                temp.set_class(classRepository.getById(id));
+                classUserLinkRepository.save(temp);
+            }
+            return id;
         } catch (NoSuchElementException e) {
             throw new ServiceException("有一个学生id异常" + e.toString());
         } catch (Exception e) {
